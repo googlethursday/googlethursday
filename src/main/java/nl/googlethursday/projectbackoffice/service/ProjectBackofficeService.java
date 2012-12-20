@@ -23,7 +23,6 @@ public class ProjectBackofficeService {
  */
 	List<Project> projectList;
 
-	
 	@EJB
 	MongoDBService service;
 	
