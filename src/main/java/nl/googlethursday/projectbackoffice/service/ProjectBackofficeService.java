@@ -10,6 +10,7 @@ import nl.googlethursday.projectbackoffice.entity.Project;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
@@ -54,8 +55,7 @@ public class ProjectBackofficeService {
 
 			// Maak collection indien niet aanwezig
 			coll = db.getCollection(COLLECTIONNAME);
-			
-			
+
 			if (coll.count() == 0) {
 				System.out.println("collection leeg");
 				// tabel is leeg, deze vullen met testgegevens
@@ -95,6 +95,7 @@ public class ProjectBackofficeService {
 	 */
 	public Project getProject(int id) {
 		coll = db.getCollection(COLLECTIONNAME);
+
 		DBObject searchById = new BasicDBObject("projectid", new Integer(id));
 		DBObject found = coll.findOne(searchById);
 		System.out.println(found);
@@ -111,28 +112,33 @@ public class ProjectBackofficeService {
 	 * @return
 	 */
 	public List<Project> getProjects() {
-		
+
 		Project project;
 		List<Project> projectList = new ArrayList<Project>();
-		
-		coll = db.getCollection(COLLECTIONNAME);
-		List<DBObject> list = coll.getIndexInfo();
-		
 		String projectnaam, projectomschrijving, projectleider;
+
+		coll = db.getCollection(COLLECTIONNAME);
+
+		DBCursor cursor = coll.find();
+		DBObject one;
 		
-		// loop door teruggegegeven lijst uit db
-		for (DBObject o : list) {
-			System.out.println("opgehaald objectid: "+o.get("projectid"));
-			
-			projectnaam = (String) o.get("projectnaam");
-			projectomschrijving = (String) o.get("projectomschrijving");
-			projectleider = (String) o.get("projectleider");
-			project = new Project(projectnaam, projectomschrijving, projectleider);
+		try {
+        	while (cursor.hasNext()) {
+    			one = cursor.next();
+    			System.out.println("opgehaald objectid: " + one.get("projectid"));
+    			projectnaam = (String) one.get("projectnaam");
+    			projectomschrijving = (String) one.get("projectomschrijving");
+    			projectleider = (String) one.get("projectleider");
+    			project = new Project(projectnaam, projectomschrijving, projectleider);
 
-			System.out.println("toevoegen aan list: "+ project.getProjectNaam());
-			projectList.add(project);
-		}
+    			System.out.println("toevoegen aan list: " + project.getProjectNaam());
+    			projectList.add(project);
+    		}
 
+        } finally {
+            cursor.close();
+        }
+		
 		return projectList;
 	}
 
