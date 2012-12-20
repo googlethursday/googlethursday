@@ -1,0 +1,5 @@
+20-12-2012 2
+MongoDB config toegevoegd (nog een harde verwijzing met OpenShift erin, moet dus nog anders)
+
+20-12-2012 1
+Applicatie op GitHub gedeployed, draait ook op CloudBees
