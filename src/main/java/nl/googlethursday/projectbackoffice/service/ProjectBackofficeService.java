@@ -5,6 +5,11 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.Mongo;
+import com.mongodb.MongoException;
+
 import nl.googlethursday.projectbackoffice.entity.Project;
 
 /**
@@ -20,11 +25,21 @@ public class ProjectBackofficeService {
 	 */
 	List<Project> projectList;
 
-	@EJB
-	MongoDBService service;
-
+	private Mongo conn = null;
+	private DB db = null;
+	private DBCollection checkins = null;
+	
 	public ProjectBackofficeService() {
-		service.openMongoConnection();
+		try {
+			conn = new Mongo("127.10.61.129", 27017);
+			db = conn.getDB("rodofumi");
+			if (db.authenticate("admin", "Fe7WQ2cN2wp9".toCharArray())) {
+				throw new MongoException("unable to authenticate");
+			}
+		} catch (Exception e) {
+			System.out.println("exception");
+		}
+		
 		projectList = new ArrayList<Project>();
 		Project p = new Project("naamProject", "omschrijvingProject", "projectLeider");
 		projectList.add(p);
