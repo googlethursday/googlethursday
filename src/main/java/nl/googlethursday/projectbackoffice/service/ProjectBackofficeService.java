@@ -2,18 +2,17 @@ package nl.googlethursday.projectbackoffice.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
+
+import nl.googlethursday.projectbackoffice.entity.Project;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
-
-import nl.googlethursday.projectbackoffice.entity.Project;
 
 /**
  * Service tbv ophalen en opslaan van Project entiteiten
@@ -23,81 +22,112 @@ import nl.googlethursday.projectbackoffice.entity.Project;
  */
 @Stateless
 public class ProjectBackofficeService {
-	/**
-	 * TODO wegschrijven in db
-	 */
+
 	List<Project> projectList;
+
+	/*********************************************/
+	/** mongodb settings **/
+	/*********************************************/
+	final String COLLECTIONNAME = "projecten";
+	final String USERNAME = "admin";
+	final String PWD = "Fe7WQ2cN2wp9";
+	final String IP = "127.10.61.129";
+	final int PORT = 27017;
 
 	private Mongo conn = null;
 	private DB db = null;
-	private DBCollection checkins = null;
-	
+	private DBCollection coll = null;
+
 	public ProjectBackofficeService() {
 		try {
-			conn = new Mongo("127.10.61.129", 27017);
+			/**
+			 * FIXME connectie niet in code maken
+			 * 
+			 */
+			conn = new Mongo(IP, PORT);
 			db = conn.getDB("rodofumi");
-			if (!db.authenticate("admin", "Fe7WQ2cN2wp9".toCharArray())) {
-				System.out.println("unable to authenticate" );
+			if (!db.authenticate(USERNAME, PWD.toCharArray())) {
+				System.out.println("unable to authenticate");
 				throw new MongoException("unable to authenticate");
-				
 			}
-			
+
 			System.out.println("authenticated");
-			
+
 			// Maak collection indien niet aanwezig
-			DBCollection coll = db.getCollection("Projecten");
-			
-			BasicDBObject document = new BasicDBObject();
-			document.put("projectnaam", "projectnaam1");
-			document.put("projectomschrijving", "omschrijving1");
-			document.put("projectleider", "projectleider1");
-			coll.insert(document);
-			document = new BasicDBObject();
-			document.put("projectnaam", "projectnaam2");
-			document.put("projectomschrijving", "omschrijving2");
-			document.put("projectleider", "projectleider2");
-			coll.insert(document);
-			document = new BasicDBObject();
-			document.put("projectnaam", "projectnaam3");
-			document.put("projectomschrijving", "omschrijving3");
-			document.put("projectleider", "projectleider3");
-			coll.insert(document);
+			coll = db.getCollection(COLLECTIONNAME);
+			if (coll.count() == 0) {
+				// tabel is leeg, deze vullen met testgegevens
+				BasicDBObject document = new BasicDBObject();
+				document.put("projectid", new Integer(1));
+				document.put("projectnaam", "projectnaam1");
+				document.put("projectomschrijving", "omschrijving1");
+				document.put("projectleider", "projectleider1");
+				coll.insert(document);
+				document = new BasicDBObject();
+				document.put("projectid", new Integer(2));
+				document.put("projectnaam", "projectnaam2");
+				document.put("projectomschrijving", "omschrijving2");
+				document.put("projectleider", "projectleider2");
+				coll.insert(document);
+				document = new BasicDBObject();
+				document.put("projectid", new Integer(3));
+				document.put("projectnaam", "projectnaam3");
+				document.put("projectomschrijving", "omschrijving3");
+				document.put("projectleider", "projectleider3");
+				coll.insert(document);
+			}
 			System.out.println("volgende stap2");
-			
-			
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		
-		
-		System.out.println("hier geen exception meer" );
-		projectList = new ArrayList<Project>();
-//		Project p = new Project("naamProject", "omschrijvingProject", "projectLeider");
-//		projectList.add(p);
-//		p = new Project("naamProject2", "omschrijvingProject2", "projectLeider2");
-//		projectList.add(p);
-//		p = new Project("naamProject3", "omschrijvingProject3", "projectLeider3");
-//		projectList.add(p);
+
+		System.out.println("hier geen exception meer");
+
 	}
 
+	/**
+	 * ophalen project uit database op basis van een aangeleverd id
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public Project getProject(int id) {
 
-		if (id >= projectList.size()) {
-			return null;
-		}
-		return (projectList.get(id));
+		DBObject searchById = new BasicDBObject("projectid", new Integer(id));
+		DBObject found = coll.findOne(searchById);
+
+		String projectnaam = (String) found.get("projectnaam");
+		String projectomschrijving = (String) found.get("projectomschrijving");
+		String projectleider = (String) found.get("projectleider");
+		Project project = new Project(projectnaam, projectomschrijving, projectleider);
+		return (project);
 	}
 
+	/**
+	 * ophalen alle projecten uit database
+	 * 
+	 * @return
+	 */
 	public List<Project> getProjects() {
-		System.out.println(projectList);
-		return projectList;
-	}
+		List<DBObject> list = coll.getIndexInfo();
+		String projectnaam, projectomschrijving, projectleider;
+		Project project;
+		List<Project> projectList = new ArrayList<Project>();
 
-	public List<Project> getProjectList() {
+		// loop door teruggegegeven lijst uit db
+		for (DBObject o : list) {
+			projectnaam = (String) o.get("projectnaam");
+			projectomschrijving = (String) o.get("projectomschrijving");
+			projectleider = (String) o.get("projectleider");
+			project = new Project(projectnaam, projectomschrijving, projectleider);
+			projectList.add(project);
+		}
+
 		return projectList;
 	}
 
 	public boolean updateProjectInList(Project project) {
+		// FIXME nog doorvoeren wegschrijven in DB
 		String projectnaam = project.getProjectNaam();
 
 		// zoek project
@@ -123,7 +153,12 @@ public class ProjectBackofficeService {
 	}
 
 	public void opslaanProjectInList(Project project) {
+		// FIXME Doorvoeren wegschrijven in database
 		projectList.add(project);
+	}
+
+	public List<Project> getProjectList() {
+		return projectList;
 	}
 
 	public void setProjectList(List<Project> projectList) {
