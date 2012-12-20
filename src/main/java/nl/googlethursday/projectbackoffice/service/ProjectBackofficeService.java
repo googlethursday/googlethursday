@@ -36,13 +36,14 @@ public class ProjectBackofficeService {
 		try {
 			conn = new Mongo("127.10.61.129", 27017);
 			db = conn.getDB("rodofumi");
-			if (db.authenticate("admin", "Fe7WQ2cN2wp9".toCharArray())) {
+			if (!db.authenticate("admin", "Fe7WQ2cN2wp9".toCharArray())) {
 				System.out.println("unable to authenticate" );
 				throw new MongoException("unable to authenticate");
 				
 			}
 			
-			System.out.println("volgende stap1");
+			System.out.println("authenticated");
+			
 			// Maak collection indien niet aanwezig
 			DBCollection coll = db.getCollection("Projecten");
 			
