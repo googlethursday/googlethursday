@@ -34,12 +34,13 @@ public class ProjectBackofficeService {
 			conn = new Mongo("127.10.61.129", 27017);
 			db = conn.getDB("rodofumi");
 			if (db.authenticate("admin", "Fe7WQ2cN2wp9".toCharArray())) {
+				System.out.println("exception" );
 				throw new MongoException("unable to authenticate");
 			}
 		} catch (Exception e) {
 			System.out.println("exception");
 		}
-		
+		System.out.println("geen exception" );
 		projectList = new ArrayList<Project>();
 		Project p = new Project("naamProject", "omschrijvingProject", "projectLeider");
 		projectList.add(p);

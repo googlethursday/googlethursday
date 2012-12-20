@@ -61,7 +61,6 @@ public class ProjectRestService {
 	@GET
 	@Path("/{username}")
 	public Response getSpecificProject(@PathParam("username") int projectId) {
-		
 		JAXBProject jaxbProject = null;
 
 		try {
