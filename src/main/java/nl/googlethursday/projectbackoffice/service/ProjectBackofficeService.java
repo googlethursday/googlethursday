@@ -2,6 +2,8 @@ package nl.googlethursday.projectbackoffice.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -40,6 +42,13 @@ public class ProjectBackofficeService {
 		} catch (Exception e) {
 			System.out.println("exception!!");
 		}
+		
+		// elke db heeft 0 of meer collections
+		Set<String> colls = db.getCollectionNames();
+		for (String s: colls){
+			System.out.println(s);
+		}
+		
 		System.out.println("geen exception!!" );
 		projectList = new ArrayList<Project>();
 		Project p = new Project("naamProject", "omschrijvingProject", "projectLeider");
