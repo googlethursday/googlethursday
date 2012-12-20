@@ -33,7 +33,6 @@ public class ProjectBackofficeService {
 	final String PWD = "Fe7WQ2cN2wp9";
 	final String IP = "127.10.61.129";
 	final int PORT = 27017;
-
 	private Mongo conn = null;
 	private DB db = null;
 	private DBCollection coll = null;
@@ -95,7 +94,7 @@ public class ProjectBackofficeService {
 	 * @return
 	 */
 	public Project getProject(int id) {
-
+		coll = db.getCollection(COLLECTIONNAME);
 		DBObject searchById = new BasicDBObject("projectid", new Integer(id));
 		DBObject found = coll.findOne(searchById);
 		System.out.println(found);
@@ -115,7 +114,8 @@ public class ProjectBackofficeService {
 		
 		Project project;
 		List<Project> projectList = new ArrayList<Project>();
-
+		
+		coll = db.getCollection(COLLECTIONNAME);
 		List<DBObject> list = coll.getIndexInfo();
 		
 		String projectnaam, projectomschrijving, projectleider;
