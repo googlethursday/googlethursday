@@ -37,7 +37,7 @@ public class ProjectBackofficeService {
 			conn = new Mongo("127.10.61.129", 27017);
 			db = conn.getDB("rodofumi");
 			if (db.authenticate("admin", "Fe7WQ2cN2wp9".toCharArray())) {
-				System.out.println("exception!!" );
+				System.out.println("unable to authenticate" );
 				throw new MongoException("unable to authenticate");
 				
 			}
@@ -65,11 +65,11 @@ public class ProjectBackofficeService {
 			
 			
 		} catch (Exception e) {
-			System.out.println("exception!!");
+			System.out.println(e);
 		}
 		
 		
-		System.out.println("geen exception!!" );
+		System.out.println("hier geen exception meer" );
 		projectList = new ArrayList<Project>();
 //		Project p = new Project("naamProject", "omschrijvingProject", "projectLeider");
 //		projectList.add(p);
