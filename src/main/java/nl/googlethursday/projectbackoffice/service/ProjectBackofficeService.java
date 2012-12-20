@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.Mongo;
@@ -38,25 +39,41 @@ public class ProjectBackofficeService {
 			if (db.authenticate("admin", "Fe7WQ2cN2wp9".toCharArray())) {
 				System.out.println("exception!!" );
 				throw new MongoException("unable to authenticate");
+				
 			}
+			// Maak collection indien niet aanwezig
+			DBCollection coll = db.getCollection("Projecten");
+			
+			BasicDBObject document = new BasicDBObject();
+			document.put("projectnaam", "projectnaam1");
+			document.put("projectomschrijving", "omschrijving1");
+			document.put("projectleider", "projectleider1");
+			coll.insert(document);
+			document = new BasicDBObject();
+			document.put("projectnaam", "projectnaam2");
+			document.put("projectomschrijving", "omschrijving2");
+			document.put("projectleider", "projectleider2");
+			coll.insert(document);
+			document = new BasicDBObject();
+			document.put("projectnaam", "projectnaam3");
+			document.put("projectomschrijving", "omschrijving3");
+			document.put("projectleider", "projectleider3");
+			coll.insert(document);
+			
+			
 		} catch (Exception e) {
 			System.out.println("exception!!");
 		}
 		
-		// elke db heeft 0 of meer collections
-		Set<String> colls = db.getCollectionNames();
-		for (String s: colls){
-			System.out.println(s);
-		}
 		
 		System.out.println("geen exception!!" );
-		projectList = new ArrayList<Project>();
-		Project p = new Project("naamProject", "omschrijvingProject", "projectLeider");
-		projectList.add(p);
-		p = new Project("naamProject2", "omschrijvingProject2", "projectLeider2");
-		projectList.add(p);
-		p = new Project("naamProject3", "omschrijvingProject3", "projectLeider3");
-		projectList.add(p);
+//		projectList = new ArrayList<Project>();
+//		Project p = new Project("naamProject", "omschrijvingProject", "projectLeider");
+//		projectList.add(p);
+//		p = new Project("naamProject2", "omschrijvingProject2", "projectLeider2");
+//		projectList.add(p);
+//		p = new Project("naamProject3", "omschrijvingProject3", "projectLeider3");
+//		projectList.add(p);
 	}
 
 	public Project getProject(int id) {
