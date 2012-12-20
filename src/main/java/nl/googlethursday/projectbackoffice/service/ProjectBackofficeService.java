@@ -55,7 +55,10 @@ public class ProjectBackofficeService {
 
 			// Maak collection indien niet aanwezig
 			coll = db.getCollection(COLLECTIONNAME);
+			
+			
 			if (coll.count() == 0) {
+				System.out.println("collection leeg");
 				// tabel is leeg, deze vullen met testgegevens
 				BasicDBObject document = new BasicDBObject();
 				document.put("projectid", new Integer(1));
@@ -95,7 +98,7 @@ public class ProjectBackofficeService {
 
 		DBObject searchById = new BasicDBObject("projectid", new Integer(id));
 		DBObject found = coll.findOne(searchById);
-
+		System.out.println(found);
 		String projectnaam = (String) found.get("projectnaam");
 		String projectomschrijving = (String) found.get("projectomschrijving");
 		String projectleider = (String) found.get("projectleider");
@@ -120,6 +123,7 @@ public class ProjectBackofficeService {
 			projectomschrijving = (String) o.get("projectomschrijving");
 			projectleider = (String) o.get("projectleider");
 			project = new Project(projectnaam, projectomschrijving, projectleider);
+			System.out.println(project);
 			projectList.add(project);
 		}
 
