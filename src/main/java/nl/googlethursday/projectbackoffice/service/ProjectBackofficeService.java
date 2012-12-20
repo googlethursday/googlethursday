@@ -41,6 +41,8 @@ public class ProjectBackofficeService {
 				throw new MongoException("unable to authenticate");
 				
 			}
+			
+			System.out.println("volgende stap1");
 			// Maak collection indien niet aanwezig
 			DBCollection coll = db.getCollection("Projecten");
 			
@@ -59,6 +61,7 @@ public class ProjectBackofficeService {
 			document.put("projectomschrijving", "omschrijving3");
 			document.put("projectleider", "projectleider3");
 			coll.insert(document);
+			System.out.println("volgende stap2");
 			
 			
 		} catch (Exception e) {
@@ -67,7 +70,7 @@ public class ProjectBackofficeService {
 		
 		
 		System.out.println("geen exception!!" );
-//		projectList = new ArrayList<Project>();
+		projectList = new ArrayList<Project>();
 //		Project p = new Project("naamProject", "omschrijvingProject", "projectLeider");
 //		projectList.add(p);
 //		p = new Project("naamProject2", "omschrijvingProject2", "projectLeider2");
