@@ -29,8 +29,8 @@ import nl.googlethursday.projectbackoffice.service.ProjectBackofficeService;
  */
 
 @Stateless
-@Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON+ ";charset=utf-8")
+@Consumes(MediaType.APPLICATION_JSON+ ";charset=utf-8")
 @Path("/projectService")
 public class ProjectRestService {
 
@@ -92,6 +92,7 @@ public class ProjectRestService {
 		} catch (JAXBException e) {
 			// fout, geef juiste http status terug
 			builder = Response.serverError();
+			
 			builder.build();
 		}
 
