@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.xml.bind.JAXBException;
 
+import nl.googlethursday.projectbackoffice.entity.Project;
 import nl.googlethursday.projectbackoffice.entity.jaxb.JAXBProject;
 import nl.googlethursday.projectbackoffice.helper.ProjectBackofficeHelper;
 import nl.googlethursday.projectbackoffice.service.ProjectBackofficeService;
@@ -32,13 +33,12 @@ import nl.googlethursday.projectbackoffice.service.ProjectBackofficeService;
 @Consumes(MediaType.APPLICATION_JSON)
 @Path("/projectService")
 public class ProjectRestService {
-	
+
 	@EJB
 	ProjectBackofficeService service;
-	
+
 	ResponseBuilder builder;
-	
-	
+
 	/**
 	 * Ophalen alle projecten
 	 * 
@@ -47,7 +47,16 @@ public class ProjectRestService {
 	@GET
 	@Path("/")
 	public List<JAXBProject> getProjects() {
-		return ProjectBackofficeHelper.ProjectListToJAXBProjectList(service.getProjects());
+		// ophalen van alle projecten
+		List<Project> projects = service.getProjects();
+
+		List<JAXBProject> jaxbProjects = null;
+
+		if (projects != null) {
+			// 1 of meer projecten gevonden, omvormen tot jaxbProjecten
+			jaxbProjects = ProjectBackofficeHelper.ProjectListToJAXBProjectList(projects);
+		}
+		return jaxbProjects;
 	}
 
 	/**
@@ -59,30 +68,38 @@ public class ProjectRestService {
 	 *         HTTP 500 indien serverfout <br>
 	 */
 	@GET
-	@Path("/{username}")
-	public Response getSpecificProject(@PathParam("username") int projectId) {
+	@Path("/{projectId}")
+	public Response getSpecificProject(@PathParam("projectId") int projectId) {
+
 		JAXBProject jaxbProject = null;
 
 		try {
-			jaxbProject = ProjectBackofficeHelper.ProjectToJAXBProject(service.getProject(new Integer(projectId)
-					.intValue()));
+			// ophalen project
+			Project project = service.getProject(new Integer(projectId).intValue());
+
+			if (project != null) {
+				jaxbProject = ProjectBackofficeHelper.ProjectToJAXBProject(project);
+			}
 
 			if (jaxbProject == null) {
+				// niet gevonden, juist http status teruggeven
 				builder = Response.noContent();
 			} else {
+				// project gevonden, project + juiste http status teruggeven
 				builder = Response.ok(jaxbProject);
 			}
 
 		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
+			// fout, geef juiste http status terug
 			builder = Response.serverError();
 			builder.build();
 		}
 
+		// geef antwoord
 		return builder.build();
 
 	}
-	
+
 	/**
 	 * POST maakt een nieuwe resource op basis van een json aanlevering
 	 * 
@@ -105,27 +122,24 @@ public class ProjectRestService {
 		builder = Response.ok();
 		return builder.build();
 	}
-	
 
-	/** 
-	 * PUT van een project, project wordt hiermee geupdate
+	/**
+	 * PUT van een project, project wordt hiermee geupdate <br/>
 	 * <br/>
+	 * Voor het testen: voeg de volgende header toe <b>Content-type:
+	 * application/json; charset=utf-8</b> <br/>
 	 * <br/>
-	 *         Voor het testen: voeg de volgende header toe <b>Content-type:
-	 *         application/json; charset=utf-8</b> <br/>
-	 * <br/>
-	 *         Een JSON voorbeeld:
-	 *         <b>{"projectOmschrijving":"omschrijvingProject2"
-	 *         ,"projectLeider":"projectLeider2"
-	 *         ,"projectNaam":"naamProject2"}</b>
-	 * <br/>
+	 * Een JSON voorbeeld: <b>{"projectOmschrijving":"omschrijvingProject2"
+	 * ,"projectLeider":"projectLeider2" ,"projectNaam":"naamProject2"}</b> <br/>
+	 * 
 	 * @param project
 	 * @return HTTP 500 indien serverfout <br>
 	 *         HTTP 304 Not Modified indien resource niet gevonden<br>
 	 *         HTTP 200 indien ok
 	 */
 	@PUT
-	@Path("/{username}")
+	@Path("/{username:[0-9][0-9]*}")
+	//@Path("/{username}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response putProject(JAXBProject project) {
 		System.out.println("PUT");
@@ -144,23 +158,23 @@ public class ProjectRestService {
 	// System.out.println("delete");
 	// }
 	//
-	 
-	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
-		public ProjectBackofficeService getService() {
-			System.out.println(service);
-			return service;
-		}
 
-		public void setService(ProjectBackofficeService service) {
-			System.out.println(service);
-			this.service = service;
-		}
-	 
-	
-	//@GET
-	//@Path("/{id:[0-9][0-9]*}")
-	//@Produces("text/xml")
-	//public Project lookupMemberById(@PathParam("id") long id) {
-	//	return null;
-	//}
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// //
+	public ProjectBackofficeService getService() {
+		System.out.println(service);
+		return service;
+	}
+
+	public void setService(ProjectBackofficeService service) {
+		System.out.println(service);
+		this.service = service;
+	}
+
+	// @GET
+	// @Path("/{id:[0-9][0-9]*}")
+	// @Produces("text/xml")
+	// public Project lookupMemberById(@PathParam("id") long id) {
+	// return null;
+	// }
 }

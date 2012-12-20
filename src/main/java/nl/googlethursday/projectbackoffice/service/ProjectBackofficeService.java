@@ -91,19 +91,25 @@ public class ProjectBackofficeService {
 	 * ophalen project uit database op basis van een aangeleverd id
 	 * 
 	 * @param id
-	 * @return
+	 * @return Project indien gevonden, null indien niet gevonden
 	 */
 	public Project getProject(int id) {
 		coll = db.getCollection(COLLECTIONNAME);
-
+		
+		// zoek naar het meegeleverde id
 		DBObject searchById = new BasicDBObject("projectid", new Integer(id));
 		DBObject found = coll.findOne(searchById);
-		System.out.println(found);
-		String projectnaam = (String) found.get("projectnaam");
-		String projectomschrijving = (String) found.get("projectomschrijving");
-		String projectleider = (String) found.get("projectleider");
-		Project project = new Project(projectnaam, projectomschrijving, projectleider);
-		return (project);
+		Project project = null;
+		
+		if (found!=null) {
+			String projectnaam = (String) found.get("projectnaam");
+			String projectomschrijving = (String) found.get("projectomschrijving");
+			String projectleider = (String) found.get("projectleider");
+			project = new Project(projectnaam, projectomschrijving, projectleider);
+		}
+		
+		return project;
+		
 	}
 
 	/**
