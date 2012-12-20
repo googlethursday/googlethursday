@@ -112,18 +112,24 @@ public class ProjectBackofficeService {
 	 * @return
 	 */
 	public List<Project> getProjects() {
-		List<DBObject> list = coll.getIndexInfo();
-		String projectnaam, projectomschrijving, projectleider;
+		
 		Project project;
 		List<Project> projectList = new ArrayList<Project>();
 
+		List<DBObject> list = coll.getIndexInfo();
+		
+		String projectnaam, projectomschrijving, projectleider;
+		
 		// loop door teruggegegeven lijst uit db
 		for (DBObject o : list) {
+			System.out.println("opgehaald objectid: "+o.get("projectid"));
+			
 			projectnaam = (String) o.get("projectnaam");
 			projectomschrijving = (String) o.get("projectomschrijving");
 			projectleider = (String) o.get("projectleider");
 			project = new Project(projectnaam, projectomschrijving, projectleider);
-			System.out.println(project);
+
+			System.out.println("toevoegen aan list: "+ project.getProjectNaam());
 			projectList.add(project);
 		}
 

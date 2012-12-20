@@ -32,6 +32,11 @@ public class ProjectBackofficeHelper {
 
 	}
 	
+	/**
+	 * converteren van {List &ltProject&gt} naar {List&ltJAXBProject&gt}
+	 * @param projectList
+	 * @return
+	 */
 	public static List<JAXBProject> ProjectListToJAXBProjectList(List<Project> projectList){
 		ArrayList <JAXBProject> jaxbProjectList = new ArrayList<JAXBProject>();
 		for (Project project : projectList) {
