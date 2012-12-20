@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
+
+import com.mongodb.Mongo;
 
 import nl.googlethursday.projectbackoffice.entity.Project;
 
@@ -20,7 +23,15 @@ public class ProjectBackofficeService {
  */
 	List<Project> projectList;
 
+	
+	@EJB
+	MongoDBService service;
+	
 	public ProjectBackofficeService() {
+
+		service.openMongoConnection();
+		
+		
 		projectList = new ArrayList<Project>();
 		Project p = new Project("naamProject", "omschrijvingProject", "projectLeider");
 		projectList.add(p);
