@@ -19,7 +19,7 @@ import javax.xml.bind.JAXBException;
 import nl.googlethursday.projectbackoffice.entity.Project;
 import nl.googlethursday.projectbackoffice.entity.jaxb.JAXBProject;
 import nl.googlethursday.projectbackoffice.helper.ProjectBackofficeHelper;
-import nl.googlethursday.projectbackoffice.service.ProjectBackofficeService;
+import nl.googlethursday.projectbackoffice.service.ProjectBackofficeServiceMongoDB;
 
 /**
  * JAX-RS Example
@@ -35,7 +35,7 @@ import nl.googlethursday.projectbackoffice.service.ProjectBackofficeService;
 public class ProjectRestService {
 
 	@EJB
-	ProjectBackofficeService service;
+	ProjectBackofficeServiceMongoDB service;
 
 	ResponseBuilder builder;
 
@@ -162,12 +162,12 @@ public class ProjectRestService {
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// //
-	public ProjectBackofficeService getService() {
+	public ProjectBackofficeServiceMongoDB getService() {
 		System.out.println(service);
 		return service;
 	}
 
-	public void setService(ProjectBackofficeService service) {
+	public void setService(ProjectBackofficeServiceMongoDB service) {
 		System.out.println(service);
 		this.service = service;
 	}

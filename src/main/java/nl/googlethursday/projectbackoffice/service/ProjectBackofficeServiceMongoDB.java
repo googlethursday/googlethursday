@@ -22,7 +22,7 @@ import com.mongodb.MongoException;
  * 
  */
 @Stateless
-public class ProjectBackofficeService {
+public class ProjectBackofficeServiceMongoDB {
 
 	List<Project> projectList;
 
@@ -38,7 +38,7 @@ public class ProjectBackofficeService {
 	private DB db = null;
 	private DBCollection coll = null;
 
-	public ProjectBackofficeService() {
+	public ProjectBackofficeServiceMongoDB() {
 		try {
 			/**
 			 * FIXME connectie niet in code maken
