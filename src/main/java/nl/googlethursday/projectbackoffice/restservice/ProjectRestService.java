@@ -139,8 +139,10 @@ public class ProjectRestService {
 	 *         HTTP 200 indien ok
 	 */
 	@PUT
-	@Path("/put/{projectId:[0-9][0-9]*}")
-	@Consumes({"application/json"})
+	//@Path("/put/{projectId:[0-9][0-9]*}")
+	@Path("/put/{projectId}")
+	//@Consumes({"application/json"})
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createOrUpdateProject(@PathParam("projectId") String id, JAXBProject project) {
 		System.out.println("PUT van id"+id);
 		if (service.updateProjectInList(ProjectBackofficeHelper.JaxbProjectToProjectEntity(project)) == true) {
