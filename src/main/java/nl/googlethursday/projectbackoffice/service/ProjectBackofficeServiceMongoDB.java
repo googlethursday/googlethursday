@@ -39,6 +39,8 @@ public class ProjectBackofficeServiceMongoDB {
 	private DBCollection coll = null;
 
 	public ProjectBackofficeServiceMongoDB() {
+		projectList = new ArrayList<Project>();
+		
 		try {
 			/**
 			 * FIXME connectie niet in code maken
