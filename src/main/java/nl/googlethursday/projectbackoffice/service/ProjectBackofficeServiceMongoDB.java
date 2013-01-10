@@ -176,6 +176,7 @@ public class ProjectBackofficeServiceMongoDB {
 
 	public void opslaanProjectInList(Project project) {
 		// FIXME Doorvoeren wegschrijven in database
+		System.out.println("project opslaan:"+project.getProjectNaam());
 		projectList.add(project);
 	}
 
