@@ -102,7 +102,8 @@ public class ProjectRestService {
 	}
 
 	/**
-	 * POST maakt een nieuwe resource op basis van een json aanlevering
+	 * POST maakt een nieuwe resource op basis van een json aanlevering maar met een op de server geidentificeerde resource (vandaar geen id meegegeven)
+	 * POST is niet idempotent.
 	 * 
 	 * @param project
 	 * @return Resource created <br/>
@@ -116,8 +117,9 @@ public class ProjectRestService {
 	 *         ,"projectNaam":"naamProject2"}</b>
 	 */
 	@POST
+	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response saveProject(JAXBProject project) {
+	public Response createProject(JAXBProject project) {
 		System.out.println("save project");
 		service.opslaanProjectInList(ProjectBackofficeHelper.JaxbProjectToProjectEntity(project));
 		builder = Response.ok();
@@ -125,7 +127,8 @@ public class ProjectRestService {
 	}
 
 	/**
-	 * PUT van een project, project wordt hiermee geupdate <br/>
+	 * PUT van een project, een bestaande resource of een nieuwe resource wordt vanaf de CLIENT geinstantieerd (vandaar de id die meegegeven wordt)
+	 * PUT is idempotent.
 	 * <br/>
 	 * Voor het testen: voeg de volgende header toe <b>Content-type:
 	 * application/json; charset=utf-8</b> <br/>
@@ -139,9 +142,11 @@ public class ProjectRestService {
 	 *         HTTP 200 indien ok
 	 */
 	@PUT
-	@Path("/{username:[0-9][0-9]*}")
-	public Response putProject(JAXBProject project) {
-		System.out.println("PUT");
+	@Path("/{projectId:[0-9][0-9]*}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response createOrUpdateProject(@PathParam("projectId") String id, JAXBProject project) {
+		System.out.println("PUT van id"+id);
 		if (service.updateProjectInList(ProjectBackofficeHelper.JaxbProjectToProjectEntity(project)) == true) {
 			builder = Response.ok();
 		} else {
