@@ -127,8 +127,8 @@ public class ProjectRestService {
 	 * PUT van een project, een bestaande resource of een nieuwe resource wordt vanaf de CLIENT geinstantieerd (vandaar de id die meegegeven wordt)
 	 * PUT is idempotent.
 	 * <br/>
-	 * Voor het testen: voeg de volgende header toe <b>Content-type:
-	 * application/json; charset=utf-8</b> <br/>
+	 * Voor het testen: voeg de volgende header toe
+	 * Content-Type: application/json; charset=utf-8
 	 * <br/>
 	 * Een JSON voorbeeld: <b>{"projectOmschrijving":"omschrijvingProject2"
 	 * ,"projectLeider":"projectLeider2" ,"projectNaam":"naamProject2"}</b> <br/>
