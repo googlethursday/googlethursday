@@ -30,8 +30,7 @@ import nl.googlethursday.projectbackoffice.service.ProjectBackofficeServiceMongo
 
 @Stateless
 @Path("/projectService")
-@Produces({"application/xml", "application/json"})
-@Consumes({"application/xml", "application/json"})
+@Produces({"application/json","application/xml"})
 public class ProjectRestService {
 
 	@EJB
@@ -140,7 +139,7 @@ public class ProjectRestService {
 	 *         HTTP 200 indien ok
 	 */
 	@PUT
-	@Path("/{projectId:[0-9][0-9]*}")
+	@Path("/put/{projectId:[0-9][0-9]*}")
 	public Response createOrUpdateProject(@PathParam("projectId") String id, JAXBProject project) {
 		System.out.println("PUT van id"+id);
 		if (service.updateProjectInList(ProjectBackofficeHelper.JaxbProjectToProjectEntity(project)) == true) {
