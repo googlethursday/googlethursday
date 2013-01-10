@@ -5,6 +5,7 @@ POST https://rodofumi-googlethursday.rhcloud.com/rest/projectService met [projec
 PUT https://rodofumi-googlethursday.rhcloud.com/rest/projectService/
 [id]
 
+
 Werkwijze:
 via Servers via in Eclipse Incremental publish naar OpenShift
 Voor updaten GitHub: op project in projectexplorer, team>remote>push..
