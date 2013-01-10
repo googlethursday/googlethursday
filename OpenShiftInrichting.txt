@@ -1,20 +1,22 @@
-MongoDB 2.2 database added.  Please make note of these credentials:
+REST URL's:
+GET https://rodofumi-googlethursday.rhcloud.com/rest/projectService
+GET https://rodofumi-googlethursday.rhcloud.com/rest/projectService/[id]
+POST https://rodofumi-googlethursday.rhcloud.com/rest/projectService met [project]
+PUT https://rodofumi-googlethursday.rhcloud.com/rest/projectService/[id]
 
-   Root User: admin
-   Root Password: Fe7WQ2cN2wp9
-   Database Name: rodofumi
+WERKWIJZE ECLIPSE/GIT/OPENSHIFT:
+via Servers via in Eclipse Incremental publish naar OpenShift
+Voor updaten GitHub: op project in projectexplorer, team>remote>push..
+op dit scherm custom URI kiezen, giturl kopieren
+source-def=master, destination-ref=master, add-spec, vink bij force-update
 
+MONGODB op OPENSHIFT:
+Root User: admin
+Root Password: Fe7WQ2cN2wp9
+Database Name: rodofumi
 Connection URL: mongodb://$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/
 
-You can manage your new MongoDB by also embedding rockmongo-1.1
-The rockmongo username and password will be the same as the MongoDB credentials above
-
-
-
-rockmongo:
-rockmongo-1.1 added.  Please make note of these MongoDB credentials again:
-
-   RockMongo User    : admin
-   RockMongo Password: Fe7WQ2cN2wp9
-
-URL: https://rodofumi-googlethursday.rhcloud.com/rockmongo/
+ROCKMONGO (MONGODB CONSOLE)
+https://rodofumi-googlethursday.rhcloud.com/rockmongo/
+RockMongo User    : admin
+RockMongo Password: Fe7WQ2cN2wp9

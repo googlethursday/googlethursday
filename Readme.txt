@@ -1,17 +1,3 @@
-urls:
-GET https://rodofumi-googlethursday.rhcloud.com/rest/projectService
-GET https://rodofumi-googlethursday.rhcloud.com/rest/projectService/[id]
-POST https://rodofumi-googlethursday.rhcloud.com/rest/projectService met [project]
-PUT https://rodofumi-googlethursday.rhcloud.com/rest/projectService/
-[id]
-
-
-Werkwijze:
-via Servers via in Eclipse Incremental publish naar OpenShift
-Voor updaten GitHub: op project in projectexplorer, team>remote>push..
-op dit scherm custom URI kiezen, giturl kopieren
-source-def=master, destination-ref=master, add-spec, vink bij force-update
-
 Repo layout
 =========== 
 deployments/ - location for built wars (Details below)
