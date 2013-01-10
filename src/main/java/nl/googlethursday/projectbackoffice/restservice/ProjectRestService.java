@@ -30,6 +30,8 @@ import nl.googlethursday.projectbackoffice.service.ProjectBackofficeServiceMongo
 
 @Stateless
 @Path("/projectService")
+@Produces({"application/xml", "application/json"})
+@Consumes({"application/xml", "application/json"})
 public class ProjectRestService {
 
 	@EJB
@@ -44,7 +46,6 @@ public class ProjectRestService {
 	 */
 	@GET
 	@Path("/")
-	@Produces(MediaType.APPLICATION_JSON)
 	public List<JAXBProject> getProjects() {
 		// ophalen van alle projecten
 		List<Project> projects = service.getProjects();
@@ -68,7 +69,6 @@ public class ProjectRestService {
 	 */
 	@GET
 	@Path("/{projectId}")
-	@Produces(MediaType.APPLICATION_JSON)
 	public Response getSpecificProject(@PathParam("projectId") int projectId) {
 
 		JAXBProject jaxbProject = null;
@@ -117,7 +117,6 @@ public class ProjectRestService {
 	 *         ,"projectNaam":"naamProject2"}</b>
 	 */
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
 	public Response createProject(JAXBProject project) {
 		System.out.println("save project");
 		service.opslaanProjectInList(ProjectBackofficeHelper.JaxbProjectToProjectEntity(project));
@@ -142,7 +141,6 @@ public class ProjectRestService {
 	 */
 	@PUT
 	@Path("/{projectId:[0-9][0-9]*}")
-	@Produces(MediaType.APPLICATION_JSON)
 	public Response createOrUpdateProject(@PathParam("projectId") String id, JAXBProject project) {
 		System.out.println("PUT van id"+id);
 		if (service.updateProjectInList(ProjectBackofficeHelper.JaxbProjectToProjectEntity(project)) == true) {
