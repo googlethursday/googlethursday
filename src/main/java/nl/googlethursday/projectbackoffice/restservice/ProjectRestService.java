@@ -140,8 +140,6 @@ public class ProjectRestService {
 	 */
 	@PUT
 	@Path("/{username:[0-9][0-9]*}")
-	//@Path("/{username}")
-	@Consumes(MediaType.APPLICATION_JSON)
 	public Response putProject(JAXBProject project) {
 		System.out.println("PUT");
 		if (service.updateProjectInList(ProjectBackofficeHelper.JaxbProjectToProjectEntity(project)) == true) {
