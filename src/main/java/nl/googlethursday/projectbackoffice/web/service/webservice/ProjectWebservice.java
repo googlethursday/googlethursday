@@ -15,8 +15,7 @@ import nl.googlethursday.projectbackoffice.service.ProjectBackofficeServiceMongo
  * @author rodo
  *
  */
-@Stateless
-
+//@Stateless
 @WebService(serviceName="projectwebservice", targetNamespace="nl.googlethursday")
 public class ProjectWebservice {
 
