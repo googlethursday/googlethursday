@@ -6,6 +6,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
 
 import org.jboss.wsf.spi.annotation.WebContext;
 
@@ -15,10 +16,11 @@ import nl.googlethursday.projectbackoffice.service.ProjectBackofficeServiceMongo
 /**
  * Webservice tbv Projecten
  * @author rodo
- *
+ * FIXME: WebContext zou een context moeten meegeven, maar dit gebeurt niet remote
  */
 @Stateless
 @WebService(serviceName="projectwebservice", targetNamespace="nl.googlethursday")
+@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 @WebContext(contextRoot="/xyz", urlPattern="/*", secureWSDLAccess=false)
 public class ProjectWebservice {
 
