@@ -16,14 +16,6 @@
 		<url-pattern>/health</url-pattern>
 	</servlet-mapping>
 
-	<servlet>
-		<servlet-name>MathWS</servlet-name>
-		<servlet-class>nl.googlethursday.projectbackoffice.web.service.webservice.ProjectWebservice</servlet-class>
-	</servlet>
 
-	<servlet-mapping>
-		<servlet-name>MathWS</servlet-name>
-		<url-pattern>/ws</url-pattern>
-	</servlet-mapping>
 </web-app>
 
