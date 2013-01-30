@@ -19,7 +19,7 @@ import nl.googlethursday.projectbackoffice.service.ProjectBackofficeServiceMongo
  */
 @Stateless
 @WebService(serviceName="projectwebservice", targetNamespace="nl.googlethursday")
-@WebContext(contextRoot="/xyz")
+@WebContext(contextRoot="/xyz", urlPattern="/*", secureWSDLAccess=false)
 public class ProjectWebservice {
 
 	@EJB
