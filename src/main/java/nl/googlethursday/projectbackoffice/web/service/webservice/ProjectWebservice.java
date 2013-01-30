@@ -7,6 +7,8 @@ import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
+import org.jboss.wsf.spi.annotation.WebContext;
+
 import nl.googlethursday.projectbackoffice.entity.Project;
 import nl.googlethursday.projectbackoffice.service.ProjectBackofficeServiceMongoDB;
 
@@ -17,6 +19,7 @@ import nl.googlethursday.projectbackoffice.service.ProjectBackofficeServiceMongo
  */
 @Stateless
 @WebService(serviceName="projectwebservice", targetNamespace="nl.googlethursday")
+@WebContext(contextRoot="/xyz")
 public class ProjectWebservice {
 
 	@EJB
