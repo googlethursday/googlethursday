@@ -46,9 +46,8 @@ public class ProjectBackofficeHelper {
 	}
 
 	private static JAXBProject convert(Project project){
-		JAXBProject p = new JAXBProject(project.getProjectNaam(),
+		return new JAXBProject(project.getProjectNaam(),
 				project.getProjectOmschrijving(),
 				project.getProjectLeider());
-		return p;
 	}
 }

@@ -1,4 +1,4 @@
-package nl.googlethursday.projectbackoffice.restservice;
+package nl.googlethursday.projectbackoffice.web.service.restservice;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

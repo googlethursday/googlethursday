@@ -1,7 +1,7 @@
 package nl.googlethursday.projectbackoffice.entity;
 
 /**
- * Project Entiteit
+ * Project Entiteit bevat informatie over het project
  * 
  * @author rodo
  *
@@ -18,6 +18,7 @@ public class Project {
 	public Project(){
 		
 	}
+	
 	public Project(String projectNaam, String projectOmschrijving,
 			String projectLeider) {
 		super();
@@ -45,5 +46,4 @@ public class Project {
 	public void setProjectLeider(String projectLeider) {
 		this.projectLeider = projectLeider;
 	}
-
 }

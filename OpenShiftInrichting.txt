@@ -4,6 +4,9 @@ GET https://rodofumi-googlethursday.rhcloud.com/rest/projectService/[id]
 POST https://rodofumi-googlethursday.rhcloud.com/rest/projectService met [project]
 PUT https://rodofumi-googlethursday.rhcloud.com/rest/projectService/[id]
 
+Webservice URL:
+http://[ip]:[port]/[url]/ProjectWebservice
+
 WERKWIJZE ECLIPSE/GIT/OPENSHIFT:
 via Servers via in Eclipse Incremental publish naar OpenShift
 Voor updaten GitHub: op project in projectexplorer, team>remote>push..

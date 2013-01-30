@@ -43,8 +43,7 @@ public class ProjectBackofficeServiceMongoDB {
 		
 		try {
 			/**
-			 * FIXME connectie niet in code maken
-			 * 
+			 * FIXME connectie niet in code makenW			 * 
 			 */
 			conn = new Mongo(IP, PORT);
 			db = conn.getDB("rodofumi");
@@ -151,7 +150,7 @@ public class ProjectBackofficeServiceMongoDB {
 	}
 
 	public boolean updateProjectInList(Project project) {
-		// FIXME nog doorvoeren wegschrijven in DB
+		// FIXME nog doorvoeren update naar DB
 		String projectnaam = project.getProjectNaam();
 
 		// zoek project
