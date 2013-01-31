@@ -1,8 +1,10 @@
 REST URL's:
-GET https://rodofumi-googlethursday.rhcloud.com/rest/projectService
-GET https://rodofumi-googlethursday.rhcloud.com/rest/projectService/[id]
+GET https://rodofumi-googlethursday.rhcloud.com/rest/projectService dummy voor Jaap en Martijn
+GET https://rodofumi-googlethursday.rhcloud.com/rest/projectService/nw 'oude' get die terug kan als dummy uitgeschakeld wordt
+GET https://rodofumi-googlethursday.rhcloud.com/rest/projectService/[projectnaam]
 POST https://rodofumi-googlethursday.rhcloud.com/rest/projectService met [project]
-PUT http://rodofumi-googlethursday.rhcloud.com/rest/projectService/put/[id]
+PUT http://rodofumi-googlethursday.rhcloud.com/rest/projectService/put/[projectnaam]
+DELETE https://rodofumi-googlethursday.rhcloud.com/rest/projectService/delete/[projectnaam]
 
 vergeet niet de header "Content-Type: application/json; charset=utf-8" mee te geven
 

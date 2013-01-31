@@ -1,3 +1,6 @@
+31-01-2013 6
+MongoDB aagepast op DELETE, dummy GET toegevoegd tbv test
+
 31-01-2013 5
 MongoDB aagepast
 
