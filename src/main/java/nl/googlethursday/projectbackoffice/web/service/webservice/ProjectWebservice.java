@@ -43,8 +43,8 @@ public class ProjectWebservice {
 	 * @return
 	 */
 	@WebMethod
-	public Project ophalenProject(int projectId){
-		return service.getProject(projectId);
+	public Project ophalenProject(String projectNaam){
+		return service.getProject(projectNaam);
 	}
 	
 	/**

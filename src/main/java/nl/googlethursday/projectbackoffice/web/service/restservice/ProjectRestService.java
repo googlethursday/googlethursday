@@ -96,14 +96,14 @@ public class ProjectRestService {
 	 *         HTTP 500 indien serverfout <br>
 	 */
 	@GET
-	@Path("/{projectId}")
-	public Response getSpecificProject(@PathParam("projectId") int projectId) {
+	@Path("/{projectNaam}")
+	public Response getSpecificProject(@PathParam("projectNaam") String projectnaam) {
 
 		JAXBProject jaxbProject = null;
 
 		try {
 			// ophalen project
-			Project project = service.getProject(new Integer(projectId).intValue());
+			Project project = service.getProject(projectnaam);
 
 			if (project != null) {
 				jaxbProject = ProjectBackofficeHelper.ProjectToJAXBProject(project);

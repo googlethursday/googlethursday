@@ -25,7 +25,6 @@ import com.mongodb.MongoException;
 @Stateless
 public class ProjectBackofficeServiceMongoDB {
 	public final static String COLLECTIONNAME = "projecten";
-	public final static String COLLECTIONNAME_ID = "projectId";
 	public final static String USERNAME = "admin";
 	public final static String PWD = "Fe7WQ2cN2wp9";
 	public final static String IP = "127.10.61.129";
@@ -38,7 +37,7 @@ public class ProjectBackofficeServiceMongoDB {
 	private Mongo conn = null;
 	private DB db = null;
 	private DBCollection coll = null;
-	private DBCollection collProjectId = null;
+	
 	private int sleutel = 0;
 
 	/**
@@ -90,13 +89,13 @@ public class ProjectBackofficeServiceMongoDB {
 	 * @param id
 	 * @return Project indien gevonden, null indien niet gevonden
 	 */
-	public Project getProject(int id) {
+	public Project getProject(String projectnaam) {
 
 		// ophalen collectie
 		coll = db.getCollection(COLLECTIONNAME);
 
 		// zoek naar het meegeleverde id
-		DBObject searchById = new BasicDBObject("projectid", new Integer(id));
+		DBObject searchById = new BasicDBObject("projectnaam", projectnaam);
 		DBObject found = coll.findOne(searchById);
 
 		Project project = null;
@@ -130,7 +129,6 @@ public class ProjectBackofficeServiceMongoDB {
 			while (cursor.hasNext()) {
 				// loop over alle elementen uit de db
 				one = cursor.next();
-				System.out.println("opgehaald objectid: " + one.get("projectid"));
 				projectList.add(createProject(one));
 			}
 
@@ -159,13 +157,14 @@ public class ProjectBackofficeServiceMongoDB {
 	 */
 	public boolean opslaanProject(Project project) {
 		coll = db.getCollection(COLLECTIONNAME);
+		
 		String projectnaam = project.getProjectNaam();
 
 		// upsert:insert/update gezamelijk op basis van query
 		BasicDBObject query = new BasicDBObject();
 		query.put("projectnaam", projectnaam);
 
-		// 3e param upsert
+		// 3e param upsert (insert/update afhankelijk van hit op de query)
 		// 4e param = multi, true geeft update over meerdere documents
 		coll.update(query, createDBObject(project), true, false);
 
@@ -191,8 +190,6 @@ public class ProjectBackofficeServiceMongoDB {
 	 */
 	private DBObject createDBObject(Project project) {
 		BasicDBObject document = new BasicDBObject();
-		// bepaal laatst uitgegeven id
-		document.put("projectid", bepaalId());
 		document.put("projectnaam", project.getProjectNaam());
 		document.put("projectomschrijving", project.getProjectOmschrijving());
 		document.put("projectleider", project.getProjectLeider());
