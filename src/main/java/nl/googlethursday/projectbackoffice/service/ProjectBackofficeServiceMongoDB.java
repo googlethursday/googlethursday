@@ -14,6 +14,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
+import nl.googlethursday.projectbackoffice.service.MongoDBProperties;
 
 /**
  * Service tbv ophalen en opslaan van Project entiteiten
