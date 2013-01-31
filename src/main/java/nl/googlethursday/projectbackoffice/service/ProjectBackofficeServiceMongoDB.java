@@ -181,12 +181,23 @@ public class ProjectBackofficeServiceMongoDB {
 		return true;
 	}
 
-	
+	/**
+	 * Verwijder element obv projectnaam
+	 * @param project
+	 * @return
+	 */
 	public boolean verwijderProject(Project project){
 		// ophalen collectie
+		System.out.println("delete 1");
 		coll = db.getCollection(COLLECTIONNAME);
+		
+		System.out.println("delete 2");
 		BasicDBObject document = (BasicDBObject) createDBObject(project);
+		
+		System.out.println("delete 3");
 		WriteResult result = coll.remove(document);
+		
+		System.out.println("delete 4");
 		return true;	
 	}
 	
