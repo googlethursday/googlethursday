@@ -206,8 +206,11 @@ public class ProjectBackofficeServiceMongoDB {
 	 */
 	private Integer bepaalId() {
 		System.out.println("bepaal id");
+		
 		collProjectId = db.getCollection(COLLECTIONNAME_ID);
 
+		System.out.println(collProjectId);
+		
 		// indien niet gevonden, zet er '1' in
 		if (collProjectId.count() == 0) {
 			System.out.println("niets gevonden");
@@ -217,6 +220,7 @@ public class ProjectBackofficeServiceMongoDB {
 			sleutel = 1;
 		}
 
+		System.out.println("volgende stap");
 		
 		// ophalen meest recente waarde
 		DBCursor cursor = coll.find();
