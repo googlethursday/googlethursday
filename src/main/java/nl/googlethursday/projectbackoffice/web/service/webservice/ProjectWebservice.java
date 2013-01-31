@@ -17,6 +17,7 @@ import nl.googlethursday.projectbackoffice.service.ProjectBackofficeServiceMongo
  * Webservice tbv Projecten
  * @author rodo
  * FIXME: WebContext zou een context moeten meegeven, maar dit gebeurt niet remote
+ * 
  */
 @Stateless
 @WebService(serviceName="projectwebservice", targetNamespace="nl.googlethursday")
