@@ -189,7 +189,7 @@ public class ProjectRestService {
 	 * @return
 	 */
 	@PUT
-	@Path("/put/{projectId")
+	@Path("/put")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createOrUpdateProject(JAXBProject project) {
 		System.out.println("PUT zonder id");
