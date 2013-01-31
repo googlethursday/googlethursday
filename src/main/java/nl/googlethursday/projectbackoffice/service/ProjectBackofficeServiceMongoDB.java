@@ -67,17 +67,20 @@ public class ProjectBackofficeServiceMongoDB {
 
 				// tabel is leeg, deze vullen met testgegevens
 				Project p = new Project("projectnaam1", "projectomschrijving1", "projectleider1");
+				System.out.println("vul een");
 				coll.insert(createDBObject(p));
 
 				p = new Project("projectnaam2", "projectomschrijving2", "projectleider2");
+				System.out.println("vul twee");
 				coll.insert(createDBObject(p));
 
 				p = new Project("projectnaam3", "projectomschrijving3", "projectleider3");
+				System.out.println("vul drie");
 				coll.insert(createDBObject(p));
 			}
 			System.out.println("volgende stap2");
 		} catch (Exception e) {
-			System.out.println(e);
+			System.out.println("exceptie:"+e);
 		}
 	}
 
@@ -202,19 +205,23 @@ public class ProjectBackofficeServiceMongoDB {
 	 * @return
 	 */
 	private Integer bepaalId() {
+		System.out.println("bepaal id");
 		collProjectId = db.getCollection(COLLECTIONNAME_ID);
 
 		// indien niet gevonden, zet er '1' in
 		if (collProjectId.count() == 0) {
+			System.out.println("niets gevonden");
 			BasicDBObject document = new BasicDBObject();
 			document.put("sleutel", new Integer(1));
 			collProjectId.insert(document);
 			sleutel = 1;
 		}
 
+		
 		// ophalen meest recente waarde
 		DBCursor cursor = coll.find();
 		sleutel = (Integer) cursor.next().get("sleutel");
+		System.out.println("sleutel wordt: "+sleutel);
 		return sleutel;
 	}
 }
