@@ -209,9 +209,10 @@ public class ProjectRestService {
 	@DELETE
 	@Path("/delete/{projectNaam}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response deleteProject(@PathParam("projectNaam") String projectNaam, JAXBProject jaxbProject){
+	public Response deleteProject(@PathParam("projectNaam") String projectNaam){
 		System.out.println("delete:" + projectNaam);
-		if (service.verwijderProject(ProjectBackofficeHelper.JaxbProjectToProjectEntity(jaxbProject)) == true) {
+		
+		if (service.verwijderProject(new Project(projectNaam,null,null)) == true) {
 			builder=Response.ok();
 		} else {
 			builder = Response.notModified();
