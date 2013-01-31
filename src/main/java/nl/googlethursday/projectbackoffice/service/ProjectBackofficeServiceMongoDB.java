@@ -14,7 +14,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
-import nl.googlethursday.projectbackoffice.service.MongoDBProperties;
+
 
 /**
  * Service tbv ophalen en opslaan van Project entiteiten
@@ -24,7 +24,13 @@ import nl.googlethursday.projectbackoffice.service.MongoDBProperties;
  */
 @Stateless
 public class ProjectBackofficeServiceMongoDB {
-
+	public final static String COLLECTIONNAME = "projecten";
+	public final static String COLLECTIONNAME_ID = "projectId";
+	public final static String USERNAME = "admin";
+	public final static String PWD = "Fe7WQ2cN2wp9";
+	public final static String IP = "127.10.61.129";
+	public final static int PORT = 27017;
+	
 	/*********************************************/
 	/** mongodb settings **/
 	/*********************************************/
@@ -44,9 +50,9 @@ public class ProjectBackofficeServiceMongoDB {
 			/**
 			 * FIXME connectie niet in code maken
 			 */
-			conn = new Mongo(MongoDBProperties.IP, MongoDBProperties.PORT);
+			conn = new Mongo(IP, PORT);
 			db = conn.getDB("rodofumi");
-			if (!db.authenticate(MongoDBProperties.USERNAME, MongoDBProperties.PWD.toCharArray())) {
+			if (!db.authenticate(USERNAME, PWD.toCharArray())) {
 				System.out.println("unable to authenticate");
 				throw new MongoException("unable to authenticate");
 			}
@@ -54,7 +60,7 @@ public class ProjectBackofficeServiceMongoDB {
 			System.out.println("authenticated");
 
 			// lees de collectie met projecten
-			coll = db.getCollection(MongoDBProperties.COLLECTIONNAME);
+			coll = db.getCollection(COLLECTIONNAME);
 
 			if (coll.count() == 0) {
 				System.out.println("collection leeg");
@@ -84,7 +90,7 @@ public class ProjectBackofficeServiceMongoDB {
 	public Project getProject(int id) {
 
 		// ophalen collectie
-		coll = db.getCollection(MongoDBProperties.COLLECTIONNAME);
+		coll = db.getCollection(COLLECTIONNAME);
 
 		// zoek naar het meegeleverde id
 		DBObject searchById = new BasicDBObject("projectid", new Integer(id));
@@ -112,7 +118,7 @@ public class ProjectBackofficeServiceMongoDB {
 		List<Project> projectList = new ArrayList<Project>();
 		String projectnaam, projectomschrijving, projectleider;
 
-		coll = db.getCollection(MongoDBProperties.COLLECTIONNAME);
+		coll = db.getCollection(COLLECTIONNAME);
 
 		// ophalen alle elementen
 		DBCursor cursor = coll.find();
@@ -149,7 +155,7 @@ public class ProjectBackofficeServiceMongoDB {
 	 * @param project
 	 */
 	public boolean opslaanProject(Project project) {
-		coll = db.getCollection(MongoDBProperties.COLLECTIONNAME);
+		coll = db.getCollection(COLLECTIONNAME);
 		String projectnaam = project.getProjectNaam();
 
 		// upsert:insert/update gezamelijk op basis van query
@@ -196,7 +202,7 @@ public class ProjectBackofficeServiceMongoDB {
 	 * @return
 	 */
 	private Integer bepaalId() {
-		collProjectId = db.getCollection(MongoDBProperties.COLLECTIONNAME_ID);
+		collProjectId = db.getCollection(COLLECTIONNAME_ID);
 
 		// indien niet gevonden, zet er '1' in
 		if (collProjectId.count() == 0) {
