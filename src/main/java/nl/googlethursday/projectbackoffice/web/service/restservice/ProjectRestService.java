@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -201,12 +202,24 @@ public class ProjectRestService {
 		return builder.build();
 	}
 	
-	//
-	// @DELETE
-	// @Consumes(MediaType.APPLICATION_JSON)
-	// public void deleteProject(int id){
-	// System.out.println("delete");
-	// }
+	/**
+	 * Delete van een resource op basis van de aangeleverde projectnaam
+	 * @param projectNaam
+	 */
+	@DELETE
+	@Path("/delete/{projectNaam}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response deleteProject(@PathParam("projectNaam") String projectNaam, JAXBProject jaxbProject){
+		System.out.println("delete:" + projectNaam);
+		if (service.verwijderProject(ProjectBackofficeHelper.JaxbProjectToProjectEntity(jaxbProject)) == true) {
+			builder=Response.ok();
+		} else {
+			builder = Response.notModified();
+		}
+		return builder.build();
+			
+		
+	}
 	//
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

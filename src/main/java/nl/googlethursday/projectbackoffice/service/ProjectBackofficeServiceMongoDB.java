@@ -181,6 +181,16 @@ public class ProjectBackofficeServiceMongoDB {
 		return true;
 	}
 
+	
+	public boolean verwijderProject(Project project){
+		// ophalen collectie
+		coll = db.getCollection(COLLECTIONNAME);
+		BasicDBObject document = (BasicDBObject) createDBObject(project);
+		WriteResult result = coll.remove(document);
+		return true;	
+	}
+	
+	
 	/**
 	 * helper tbv conversie dbobject->project
 	 * 
