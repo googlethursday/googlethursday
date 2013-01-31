@@ -2,9 +2,7 @@ package nl.googlethursday.projectbackoffice.entity;
 
 /**
  * Project Entiteit bevat informatie over het project
- * 
  * @author rodo
- *
  */
 public class Project {
 
