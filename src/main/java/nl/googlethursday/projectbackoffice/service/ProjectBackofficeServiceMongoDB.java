@@ -14,6 +14,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
+import com.mongodb.WriteResult;
 
 
 /**
@@ -156,17 +157,26 @@ public class ProjectBackofficeServiceMongoDB {
 	 * @param project
 	 */
 	public boolean opslaanProject(Project project) {
+		// ophalen collectie
 		coll = db.getCollection(COLLECTIONNAME);
 		
+		//tbv zoeken op bestaand record obv projectnaam
 		String projectnaam = project.getProjectNaam();
 
 		// upsert:insert/update gezamelijk op basis van query
 		BasicDBObject query = new BasicDBObject();
+		
+		System.out.println("opslaan van project:"+projectnaam);
+		
+		// maak de query aan
 		query.put("projectnaam", projectnaam);
 
 		// 3e param upsert (insert/update afhankelijk van hit op de query)
+		
 		// 4e param = multi, true geeft update over meerdere documents
-		coll.update(query, createDBObject(project), true, false);
+		WriteResult result = coll.update(query, createDBObject(project), true, false);
+		
+		System.out.println(result.getError());
 
 		return true;
 	}

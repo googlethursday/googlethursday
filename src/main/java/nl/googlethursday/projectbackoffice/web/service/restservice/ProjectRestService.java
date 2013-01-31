@@ -182,6 +182,25 @@ public class ProjectRestService {
 		return builder.build();
 	}
 
+	/**
+	 * Put zonder id
+	 * 
+	 * @param project
+	 * @return
+	 */
+	@PUT
+	@Path("/put/{projectId")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response createOrUpdateProject(JAXBProject project) {
+		System.out.println("PUT zonder id");
+		if (service.updateProject(ProjectBackofficeHelper.JaxbProjectToProjectEntity(project)) == true) {
+			builder = Response.ok();
+		} else {
+			builder = Response.notModified();
+		}
+		return builder.build();
+	}
+	
 	//
 	// @DELETE
 	// @Consumes(MediaType.APPLICATION_JSON)
