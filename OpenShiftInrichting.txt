@@ -2,7 +2,9 @@ REST URL's:
 GET https://rodofumi-googlethursday.rhcloud.com/rest/projectService
 GET https://rodofumi-googlethursday.rhcloud.com/rest/projectService/[id]
 POST https://rodofumi-googlethursday.rhcloud.com/rest/projectService met [project]
-PUT https://rodofumi-googlethursday.rhcloud.com/rest/projectService/[id]
+PUT http://rodofumi-googlethursday.rhcloud.com/rest/projectService/put/[id]
+
+vergeet niet de header "Content-Type: application/json; charset=utf-8" mee te geven
 
 Webservice URL:
 http://[ip]:[port]/[url]/ProjectWebservice

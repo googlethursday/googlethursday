@@ -33,7 +33,7 @@ public class ProjectWebservice {
 	 */
 	@WebMethod
 	public List<Project> ophalenProjecten(){
-	 return (service.getProjectList());
+	 return (service.getProjects());
 	}
 	
 	/**
@@ -55,7 +55,7 @@ public class ProjectWebservice {
 	public boolean opslaanProject(Project project){
 		
 		try {
-			service.opslaanProjectInList(project);
+			service.opslaanProject(project);
 			return true;
 		} catch (Exception e) {
 			System.out.println(e);

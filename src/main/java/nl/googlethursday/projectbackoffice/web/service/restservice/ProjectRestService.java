@@ -118,7 +118,7 @@ public class ProjectRestService {
 	@POST
 	public Response createProject(JAXBProject project) {
 		System.out.println("save project");
-		service.opslaanProjectInList(ProjectBackofficeHelper.JaxbProjectToProjectEntity(project));
+		service.opslaanProject(ProjectBackofficeHelper.JaxbProjectToProjectEntity(project));
 		builder = Response.ok();
 		return builder.build();
 	}
@@ -145,7 +145,7 @@ public class ProjectRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createOrUpdateProject(@PathParam("projectId") String id, JAXBProject project) {
 		System.out.println("PUT van id"+id);
-		if (service.updateProjectInList(ProjectBackofficeHelper.JaxbProjectToProjectEntity(project)) == true) {
+		if (service.updateProject(ProjectBackofficeHelper.JaxbProjectToProjectEntity(project)) == true) {
 			builder = Response.ok();
 		} else {
 			builder = Response.notModified();
@@ -172,5 +172,4 @@ public class ProjectRestService {
 		System.out.println(service);
 		this.service = service;
 	}
-
 }
