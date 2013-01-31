@@ -1,5 +1,6 @@
 package nl.googlethursday.projectbackoffice.web.service.restservice;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -47,7 +48,15 @@ public class ProjectRestService {
 	@Path("/")
 	public List<JAXBProject> getProjects() {
 		// ophalen van alle projecten
-		List<Project> projects = service.getProjects();
+		
+		//FIXME: tijdelijk voor mijn collega's
+		new Project("jaap","en","martijn");
+		new Project("martijn","en","jaap");
+		
+		List <Project> projects = new ArrayList<Project>();
+		projects.add(new Project("jaap","en","martijn"));
+		projects.add(new Project("martijn","en","jaap"));
+		//List<Project> projects = service.getProjects();
 
 		List<JAXBProject> jaxbProjects = null;
 
@@ -58,6 +67,26 @@ public class ProjectRestService {
 		return jaxbProjects;
 	}
 
+	/**
+	 * Ophalen alle projecten
+	 * 
+	 * @return
+	 */
+	@GET
+	@Path("/nw")
+	public List<JAXBProject> getProjectsNw() {
+		// ophalen van alle projecten
+		List<Project> projects = service.getProjects();
+
+		List<JAXBProject> jaxbProjects = null;
+
+		if (projects != null) {
+			// 1 of meer projecten gevonden, omvormen tot jaxbProjecten
+			jaxbProjects = ProjectBackofficeHelper.ProjectListToJAXBProjectList(projects);
+		}
+		return jaxbProjects;
+	}
+	
 	/**
 	 * Ophalen specifiek project
 	 * 
