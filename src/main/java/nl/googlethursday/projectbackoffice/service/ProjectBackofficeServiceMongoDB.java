@@ -2,8 +2,11 @@ package nl.googlethursday.projectbackoffice.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.ejb.Stateless;
+
+import org.apache.commons.lang.StringUtils;
 
 import nl.googlethursday.projectbackoffice.entity.Project;
 
@@ -20,6 +23,8 @@ import com.mongodb.WriteResult;
 /**
  * Service tbv ophalen en opslaan van Project entiteiten
  * gekoppeld aan MongoDB
+ * TODO: unittesten
+ * TODO: generiek maken zoekopdrachten
  * @author rodo
  * 
  */
@@ -64,21 +69,11 @@ public class ProjectBackofficeServiceMongoDB {
 
 			if (coll.count() == 0) {
 				System.out.println("collection leeg");
-
 				// tabel is leeg, deze vullen met testgegevens
-				Project p = new Project("projectnaam1", "projectomschrijving1", "projectleider1");
-				System.out.println("vul een");
-				coll.insert(createDBObject(p));
-
-				p = new Project("projectnaam2", "projectomschrijving2", "projectleider2");
-				System.out.println("vul twee");
-				coll.insert(createDBObject(p));
-
-				p = new Project("projectnaam3", "projectomschrijving3", "projectleider3");
-				System.out.println("vul drie");
-				coll.insert(createDBObject(p));
+				coll.insert(createDBObject(new Project("projectnaam1", "projectomschrijving1", "projectleider1")));
+				coll.insert(createDBObject(new Project("projectnaam2", "projectomschrijving2", "projectleider2")));
+				coll.insert(createDBObject(new Project("projectnaam3", "projectomschrijving3", "projectleider3")));
 			}
-			System.out.println("volgende stap2");
 		} catch (Exception e) {
 			System.out.println("exceptie:"+e);
 		}
@@ -152,6 +147,42 @@ public class ProjectBackofficeServiceMongoDB {
 	}
 
 	/**
+	 * Zoek op meegegeven projectnaam
+	 */
+	public List<Project> zoekProject(String zoekstring) {
+		if (StringUtils.isEmpty(zoekstring)) { 
+			return null;
+		}
+		
+		DBObject one;
+		
+		List<Project> projectList = new ArrayList<Project>();
+		coll = db.getCollection(COLLECTIONNAME);
+		
+		// maak like query, hiervoor gebruikt MongoDB een regexp
+		String pattern = "/.*"+zoekstring+".*/";
+		Pattern match = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
+		BasicDBObject query = new BasicDBObject("projectnaam", match);
+		
+		// voer de query uit
+		DBCursor cursor = coll.find(query);
+		
+		try {
+			while (cursor.hasNext()) {
+				// loop over alle elementen uit de db
+				one = cursor.next();
+				projectList.add(createProject(one));
+			}
+
+		} finally {
+			cursor.close();
+		}
+
+		return projectList;
+	}
+	
+	
+	/**
 	 * insert/update project in database
 	 * 
 	 * @param project
@@ -168,11 +199,10 @@ public class ProjectBackofficeServiceMongoDB {
 		
 		System.out.println("opslaan van project:"+projectnaam);
 		
-		// maak de query aan
+		// maak de query aan tbv upsert
 		query.put("projectnaam", projectnaam);
 
 		// 3e param upsert (insert/update afhankelijk van hit op de query)
-		
 		// 4e param = multi, true geeft update over meerdere documents
 		WriteResult result = coll.update(query, createDBObject(project), true, false);
 		

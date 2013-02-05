@@ -18,6 +18,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.xml.bind.JAXBException;
 
+import org.apache.commons.lang.StringUtils;
+
 import nl.googlethursday.projectbackoffice.entity.Project;
 import nl.googlethursday.projectbackoffice.entity.jaxb.JAXBProject;
 import nl.googlethursday.projectbackoffice.helper.ProjectBackofficeHelper;
@@ -38,6 +40,7 @@ public class ProjectRestService {
 	@EJB
 	ProjectBackofficeServiceMongoDB service;
 
+	// wordt gebruikt om de juiste http response terug te geven
 	ResponseBuilder builder;
 
 	/**
@@ -86,6 +89,22 @@ public class ProjectRestService {
 			jaxbProjects = ProjectBackofficeHelper.ProjectListToJAXBProjectList(projects);
 		}
 		return jaxbProjects;
+	}
+	
+	@GET
+	@Path("/zoekProject/{projectZoekString}")
+	public Response zoekProject(@PathParam("projectZoekString") String projectZoekString) {
+
+		if (StringUtils.isEmpty(projectZoekString)) {
+			builder = Response.noContent();
+		}
+		else {
+			List<Project> projectList = service.zoekProject(projectZoekString);
+			builder = Response.ok(projectList) ;
+		}
+		
+		return builder.build();
+	
 	}
 	
 	/**

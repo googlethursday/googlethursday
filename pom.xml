@@ -40,6 +40,11 @@
 			<artifactId>jbossws-spi</artifactId>
 			<version>1.0.1.GA</version>
 		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
 	</dependencies>
 	<profiles>
 		<profile>
