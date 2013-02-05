@@ -159,14 +159,19 @@ public class ProjectBackofficeServiceMongoDB {
 		List<Project> projectList = new ArrayList<Project>();
 		coll = db.getCollection(COLLECTIONNAME);
 		
-		// maak like query, hiervoor gebruikt MongoDB een regexp
+		// maak een like query, hiervoor gebruikt MongoDB een regexp
 		String pattern = "/.*"+zoekstring+".*/";
-		Pattern match = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
-		BasicDBObject query = new BasicDBObject("projectnaam", match);
+		System.out.println("pattern:"+pattern);
+		 
+		//Pattern match = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
+		//BasicDBObject query = new BasicDBObject("projectnaam", match);
 		
 		System.out.println("voer query uit met zoekstring:"+zoekstring);
 		// voer de query uit
-		DBCursor cursor = coll.find(query);
+		//DBCursor cursor = coll.find(query);
+		BasicDBObject db = new BasicDBObject();
+		db.put("projectnaam", Pattern.compile(pattern));
+		DBCursor cursor = coll.find(db);
 		
 		try {
 			while (cursor.hasNext()) {
