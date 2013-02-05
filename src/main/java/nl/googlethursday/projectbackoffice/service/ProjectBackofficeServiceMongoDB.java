@@ -17,6 +17,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
+import com.mongodb.QueryBuilder;
 import com.mongodb.WriteResult;
 
 
@@ -161,16 +162,13 @@ public class ProjectBackofficeServiceMongoDB {
 		
 		// maak een like query, hiervoor gebruikt MongoDB een regexp
 		String pattern = zoekstring;
-		System.out.println("pattern:"+pattern);
-		 
-		//Pattern match = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
-		//BasicDBObject query = new BasicDBObject("projectnaam", match);
-		
+	
 		System.out.println("voer query uit met zoekstring:"+zoekstring);
-		// voer de query uit
-		//DBCursor cursor = coll.find(query);
 		BasicDBObject db = new BasicDBObject();
-		db.put("projectnaam", Pattern.compile(pattern));
+		Pattern regExPattern = Pattern.compile(pattern);
+		
+		db.put("projectnaam", regExPattern);
+		// voer de query uit
 		DBCursor cursor = coll.find(db);
 		
 		try {
