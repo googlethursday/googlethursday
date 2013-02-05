@@ -94,7 +94,7 @@ public class ProjectRestService {
 	@GET
 	@Path("/zoekProject/{projectZoekString}")
 	public Response zoekProject(@PathParam("projectZoekString") String projectZoekString) {
-
+		System.out.println("zoekstring:"+projectZoekString);
 		if (StringUtils.isEmpty(projectZoekString)) {
 			builder = Response.noContent();
 		}

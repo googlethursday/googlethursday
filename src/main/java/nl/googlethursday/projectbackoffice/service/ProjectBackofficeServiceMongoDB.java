@@ -164,13 +164,16 @@ public class ProjectBackofficeServiceMongoDB {
 		Pattern match = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
 		BasicDBObject query = new BasicDBObject("projectnaam", match);
 		
+		System.out.println("voer query uit met zoekstring:"+zoekstring);
 		// voer de query uit
 		DBCursor cursor = coll.find(query);
 		
 		try {
 			while (cursor.hasNext()) {
 				// loop over alle elementen uit de db
+				
 				one = cursor.next();
+				System.out.println(one.toString());
 				projectList.add(createProject(one));
 			}
 
