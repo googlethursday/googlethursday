@@ -160,7 +160,7 @@ public class ProjectBackofficeServiceMongoDB {
 		coll = db.getCollection(COLLECTIONNAME);
 		
 		// maak een like query, hiervoor gebruikt MongoDB een regexp
-		String pattern = "/.*"+zoekstring+".*/";
+		String pattern = zoekstring;
 		System.out.println("pattern:"+pattern);
 		 
 		//Pattern match = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
