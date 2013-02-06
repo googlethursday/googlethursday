@@ -235,13 +235,8 @@ public class ProjectRestService {
 			builder = Response.notModified();
 		}
 		return builder.build();
-			
-		
 	}
-	//
 
-	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	// //
 	public ProjectBackofficeServiceMongoDB getService() {
 		System.out.println(service);
 		return service;

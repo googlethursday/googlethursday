@@ -245,20 +245,19 @@ public class ProjectBackofficeServiceMongoDB {
 		System.out.println("delete 1");
 		coll = db.getCollection(COLLECTIONNAAM);
 
-		System.out.println("delete 2");
 		BasicDBObject deleteQuery = new BasicDBObject();
 		deleteQuery.put("projectnaam", project.getProjectNaam());
 
-		System.out.println("delete 3");
+		
 		DBObject objectToDelete = coll.findOne(deleteQuery);
 		if (objectToDelete == null) {
 			System.out.println("object met sleutel: " + project.getProjectNaam() + "niet gevonden");
 			return false;
 		}
-		System.out.println("delete 4");
+
 		WriteResult result = coll.remove(objectToDelete);
 
-		System.out.println("delete 5");
+		System.out.println("delete 2");
 		return true;
 	}
 
