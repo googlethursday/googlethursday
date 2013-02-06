@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -19,10 +20,13 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.xml.bind.JAXBException;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nl.googlethursday.projectbackoffice.entity.Project;
 import nl.googlethursday.projectbackoffice.entity.jaxb.JAXBProject;
 import nl.googlethursday.projectbackoffice.helper.ProjectBackofficeHelper;
+import nl.googlethursday.projectbackoffice.service.MongoUtil;
 import nl.googlethursday.projectbackoffice.service.ProjectBackofficeServiceMongoDB;
 
 /**
@@ -37,6 +41,8 @@ import nl.googlethursday.projectbackoffice.service.ProjectBackofficeServiceMongo
 @Produces({"application/json","application/xml"})
 public class ProjectRestService {
 
+	private final static Logger logger = LoggerFactory.getLogger(ProjectRestService.class);
+	
 	@EJB
 	ProjectBackofficeServiceMongoDB service;
 
@@ -78,6 +84,7 @@ public class ProjectRestService {
 	@Path("/nw")
 	public List<JAXBProject> getProjectsNw() {
 		// ophalen van alle projecten
+		logger.debug("getProjectsNw");
 		List<Project> projects = service.getProjects();
 
 		List<JAXBProject> jaxbProjects = null;
@@ -92,7 +99,7 @@ public class ProjectRestService {
 	@GET
 	@Path("/zoekProject/{projectZoekString}")
 	public Response zoekProject(@PathParam("projectZoekString") String projectZoekString) {
-		System.out.println("zoekstring:"+projectZoekString);
+		logger.debug("zoekstring:"+projectZoekString);
 		if (StringUtils.isEmpty(projectZoekString)) {
 			builder = Response.noContent();
 		}
@@ -164,7 +171,7 @@ public class ProjectRestService {
 	 */
 	@POST
 	public Response createProject(JAXBProject project) {
-		System.out.println("save project");
+		logger.debug("save project");
 		service.opslaanProject(ProjectBackofficeHelper.JaxbProjectToProjectEntity(project));
 		builder = Response.ok();
 		return builder.build();
@@ -191,7 +198,7 @@ public class ProjectRestService {
 	//@Consumes({"application/json"})
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createOrUpdateProject(@PathParam("projectId") String id, JAXBProject project) {
-		System.out.println("PUT van id"+id);
+		logger.debug("PUT van id"+id);
 		if (service.updateProject(ProjectBackofficeHelper.JaxbProjectToProjectEntity(project)) == true) {
 			builder = Response.ok();
 		} else {
@@ -210,7 +217,7 @@ public class ProjectRestService {
 	@Path("/put")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createOrUpdateProject(JAXBProject project) {
-		System.out.println("PUT zonder id");
+		logger.debug("PUT zonder id");
 		if (service.updateProject(ProjectBackofficeHelper.JaxbProjectToProjectEntity(project)) == true) {
 			builder = Response.ok();
 		} else {
@@ -227,7 +234,7 @@ public class ProjectRestService {
 	@Path("/delete/{projectNaam}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response deleteProject(@PathParam("projectNaam") String projectNaam){
-		System.out.println("delete:" + projectNaam);
+		logger.debug("delete:" + projectNaam);
 		
 		if (service.verwijderProject(new Project(projectNaam,null,null)) == true) {
 			builder=Response.ok();
@@ -238,12 +245,10 @@ public class ProjectRestService {
 	}
 
 	public ProjectBackofficeServiceMongoDB getService() {
-		System.out.println(service);
 		return service;
 	}
 
 	public void setService(ProjectBackofficeServiceMongoDB service) {
-		System.out.println(service);
 		this.service = service;
 	}
 }
