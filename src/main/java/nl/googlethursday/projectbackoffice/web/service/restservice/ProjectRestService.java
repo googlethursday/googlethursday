@@ -21,7 +21,7 @@ import javax.xml.bind.JAXBException;
 import nl.googlethursday.projectbackoffice.entity.Project;
 import nl.googlethursday.projectbackoffice.entity.jaxb.JAXBProject;
 import nl.googlethursday.projectbackoffice.helper.ProjectBackofficeHelper;
-import nl.googlethursday.projectbackoffice.service.ProjectBackofficeServiceMongoDB;
+import nl.googlethursday.projectbackoffice.service.ProjectServiceMongoDB;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -42,7 +42,7 @@ public class ProjectRestService {
 	private final static Logger logger = LoggerFactory.getLogger(ProjectRestService.class);
 	
 	@EJB
-	ProjectBackofficeServiceMongoDB service;
+	ProjectServiceMongoDB service;
 
 	// wordt gebruikt om de juiste http response terug te geven
 	ResponseBuilder builder;
@@ -241,11 +241,11 @@ public class ProjectRestService {
 		return builder.build();
 	}
 
-	public ProjectBackofficeServiceMongoDB getService() {
+	public ProjectServiceMongoDB getService() {
 		return service;
 	}
 
-	public void setService(ProjectBackofficeServiceMongoDB service) {
+	public void setService(ProjectServiceMongoDB service) {
 		this.service = service;
 	}
 }
