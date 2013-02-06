@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -19,15 +18,14 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.xml.bind.JAXBException;
 
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.googlethursday.projectbackoffice.entity.Project;
 import nl.googlethursday.projectbackoffice.entity.jaxb.JAXBProject;
 import nl.googlethursday.projectbackoffice.helper.ProjectBackofficeHelper;
-import nl.googlethursday.projectbackoffice.service.MongoUtil;
 import nl.googlethursday.projectbackoffice.service.ProjectBackofficeServiceMongoDB;
+
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * JAX-RS Example

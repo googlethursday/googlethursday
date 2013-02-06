@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 
 import nl.googlethursday.projectbackoffice.entity.Project;
 
@@ -32,9 +31,9 @@ import com.mongodb.WriteResult;
  */
 @Stateless
 public class ProjectBackofficeServiceMongoDB {
-	
+
 	private final static Logger logger = LoggerFactory.getLogger(ProjectBackofficeServiceMongoDB.class);
-		
+
 	public final static String COLLECTIONNAAM = "projecten";
 
 	/*********************************************/
@@ -47,14 +46,14 @@ public class ProjectBackofficeServiceMongoDB {
 	/**
 	 * Constructor
 	 */
-	
+
 	public ProjectBackofficeServiceMongoDB() {
-		
-		if (connection!=null) {
-			//is er een connection meegeleverd (mock) dan alleen de database ophalen
+
+		if (connection != null) {
+			// is er een connection meegeleverd (mock) dan alleen de database
+			// ophalen
 			this.db = MongoUtil.getMongo(connection);
-		}
-		else {
+		} else {
 			// er is geen connection, prd versie dus connectie opzetten
 			try {
 				logger.debug("maak een connectie");
@@ -65,10 +64,9 @@ public class ProjectBackofficeServiceMongoDB {
 			} catch (MongoException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}	
+			}
 		}
 	}
-	
 
 	/**
 	 * ophalen project uit database op basis van een aangeleverd id
@@ -228,7 +226,7 @@ public class ProjectBackofficeServiceMongoDB {
 
 		WriteResult result = coll.remove(objectToDelete);
 
-		logger.debug("delete 2");
+		logger.debug(result.getError());
 		return true;
 	}
 
@@ -239,7 +237,7 @@ public class ProjectBackofficeServiceMongoDB {
 	 * @return
 	 */
 	private Project createProject(DBObject dbObject) {
-		
+
 		return new Project(dbObject.get("projectnaam").toString(), dbObject.get("projectomschrijving").toString(),
 				dbObject.get("projectleider").toString());
 	}
@@ -263,9 +261,9 @@ public class ProjectBackofficeServiceMongoDB {
 	 * 
 	 * @return
 	 */
-	private Integer bepaalId() {
-		return new Integer(getNextId(db, "seq"));
-	}
+	//private Integer bepaalId() {
+	//	return new Integer(getNextId(db, "seq"));
+	//}
 
 	/**
 	 * Get the next unique ID for a named sequence.
