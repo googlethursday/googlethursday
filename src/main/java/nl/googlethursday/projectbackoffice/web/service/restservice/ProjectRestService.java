@@ -54,8 +54,8 @@ public class ProjectRestService {
 		// ophalen van alle projecten
 		
 		//FIXME: tijdelijk voor mijn collega's
-		new Project("jaap","en","martijn");
-		new Project("martijn","en","jaap");
+		new Project("jaap1","en","martijn2");
+		new Project("martijn3","en","jaap4");
 		
 		List <Project> projects = new ArrayList<Project>();
 		projects.add(new Project("jaap","en","martijn"));
