@@ -57,8 +57,7 @@ public class ProjectRestService {
 	public List<JAXBProject> getProjects() {
 		// ophalen van alle projecten
 		
-		//FIXME: tijdelijk voor mijn collega's
-	
+		//FIXME: tijdelijk voor collega's
 		List <Project> projects = new ArrayList<Project>();
 		projects.add(new Project("jaap1","en","martijn"));
 		projects.add(new Project("martijn2","en","jaap"));

@@ -7,8 +7,6 @@ import java.util.regex.Pattern;
 
 import javax.ejb.Stateless;
 
-import nl.googlethursday.projectbackoffice.entity.Project;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +19,8 @@ import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 import com.mongodb.WriteResult;
+
+import nl.googlethursday.projectbackoffice.entity.Project;
 
 /**
  * Service tbv ophalen en opslaan van Project entiteiten gekoppeld aan MongoDB
