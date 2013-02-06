@@ -17,7 +17,6 @@ public class PingRestService {
 
 	/**
 	 * Ping methode
-	 * 
 	 * @return
 	 */
 
