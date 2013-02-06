@@ -11,9 +11,7 @@ import nl.googlethursday.projectbackoffice.entity.jaxb.JAXBProject;
 
 /**
  * Static helper methodes
- * 
  * @author rodo
- *
  */
 public class ProjectBackofficeHelper {
 
@@ -45,6 +43,11 @@ public class ProjectBackofficeHelper {
 		return jaxbProjectList;
 	}
 
+	/**
+	 * Maak een JAXB element
+	 * @param project
+	 * @return
+	 */
 	private static JAXBProject convert(Project project){
 		return new JAXBProject(project.getProjectNaam(),
 				project.getProjectOmschrijving(),

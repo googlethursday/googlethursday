@@ -32,10 +32,9 @@ import com.mongodb.WriteResult;
  */
 @Stateless
 public class ProjectBackofficeServiceMongoDB {
+	
 	private final static Logger logger = LoggerFactory.getLogger(ProjectBackofficeServiceMongoDB.class);
-	
-
-	
+		
 	public final static String COLLECTIONNAAM = "projecten";
 
 	/*********************************************/
