@@ -3,6 +3,9 @@ package nl.googlethursday.projectbackoffice.service.mongodb;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import javax.ejb.Stateless;
+
 import nl.googlethursday.projectbackoffice.entity.Project;
 import org.apache.commons.lang.StringUtils;
 import com.mongodb.BasicDBObject;
@@ -12,6 +15,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 
+@Stateless
 public class MongoDBService {
 	
 	private Mongo mongo;
