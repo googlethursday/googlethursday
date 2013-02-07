@@ -52,12 +52,12 @@ public class MongoDBService {
 		if (connection != null) {
 			// is er een connection meegeleverd (mock) dan alleen de database
 			// ophalen
-			this.db = MongoUtil.getMongo(connection);
+			this.db = MongoDBUtil.getMongo(connection);
 		} else {
 			// er is geen connection, prd versie dus connectie opzetten
 			try {
 				logger.debug("maak een connectie");
-				this.db = MongoUtil.getMongo(new Mongo(MongoUtil.HOST, MongoUtil.PORT));
+				this.db = MongoDBUtil.getMongo(new Mongo(MongoDBUtil.HOST, MongoDBUtil.PORT));
 			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
