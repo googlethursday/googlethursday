@@ -9,7 +9,9 @@ import javax.ejb.Stateless;
 import nl.googlethursday.projectbackoffice.entity.Project;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -31,7 +33,7 @@ public class MongoDBService {
 	private DBCollection coll;
 
 	public final static String COLLECTIONNAAM = "projecten";
-	private static Logger logger = Logger.getLogger(MongoDBService.class);
+	private final static Logger logger = LoggerFactory.getLogger(MongoDBService.class);
 	
 	public MongoDBService() {
 		mongo = MongoUtil.getMongo();
