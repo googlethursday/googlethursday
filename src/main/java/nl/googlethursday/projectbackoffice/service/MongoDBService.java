@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -41,17 +42,16 @@ public class MongoDBService {
 	/*********************************************/
 	private DB db = null;
 	private DBCollection coll = null;
-	public static Mongo connection;
+	public Mongo connection;
 
 	/**
 	 * Constructor
 	 */
-
+	@Inject
 	public MongoDBService() {
 		
 		if (connection != null) {
-			// is er een connection meegeleverd (mock) dan alleen de database
-			// ophalen
+			// is er een connection meegeleverd (mock) dan alleen de db ophalen
 			this.db = MongoDBUtil.getMongo(connection);
 		} else {
 			// er is geen connection, prd versie dus connectie opzetten
