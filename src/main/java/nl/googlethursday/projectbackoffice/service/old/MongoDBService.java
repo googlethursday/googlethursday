@@ -1,4 +1,4 @@
-package nl.googlethursday.projectbackoffice.service;
+package nl.googlethursday.projectbackoffice.service.old;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class MongoDBService {
 	/*********************************************/
 	private DB db = null;
 	private DBCollection coll = null;
-	public Mongo connection;
+	public static Mongo connection;
 
 	/**
 	 * Constructor

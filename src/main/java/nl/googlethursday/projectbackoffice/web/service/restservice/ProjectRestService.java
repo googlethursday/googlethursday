@@ -21,7 +21,7 @@ import javax.xml.bind.JAXBException;
 import nl.googlethursday.projectbackoffice.entity.Project;
 import nl.googlethursday.projectbackoffice.entity.jaxb.JAXBProject;
 import nl.googlethursday.projectbackoffice.helper.ProjectBackofficeHelper;
-import nl.googlethursday.projectbackoffice.service.MongoDBService;
+import nl.googlethursday.projectbackoffice.service.mongodb.MongoDBService;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
