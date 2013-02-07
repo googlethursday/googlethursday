@@ -93,6 +93,7 @@ public class ProjectRestService {
 		return jaxbProjects;
 	}
 	
+	
 	@GET
 	@Path("/zoekProject/{projectZoekString}")
 	public Response zoekProject(@PathParam("projectZoekString") String projectZoekString) {
@@ -108,6 +109,7 @@ public class ProjectRestService {
 		return builder.build();
 	
 	}
+	
 	
 	/**
 	 * Ophalen specifiek project
@@ -148,9 +150,9 @@ public class ProjectRestService {
 
 		// geef antwoord
 		return builder.build();
-
 	}
 
+	
 	/**
 	 * POST maakt een nieuwe resource op basis van een json aanlevering maar met een op de server geidentificeerde resource (vandaar geen id meegegeven)
 	 * POST is niet idempotent.
@@ -174,6 +176,7 @@ public class ProjectRestService {
 		return builder.build();
 	}
 
+	
 	/**
 	 * PUT van een project, een bestaande resource of een nieuwe resource wordt vanaf de CLIENT geinstantieerd (vandaar de id die meegegeven wordt)
 	 * PUT is idempotent.
@@ -204,6 +207,7 @@ public class ProjectRestService {
 		return builder.build();
 	}
 
+	
 	/**
 	 * Put zonder id
 	 * 
@@ -223,6 +227,7 @@ public class ProjectRestService {
 		return builder.build();
 	}
 	
+	
 	/**
 	 * Delete van een resource op basis van de aangeleverde projectnaam
 	 * @param projectNaam
@@ -241,10 +246,12 @@ public class ProjectRestService {
 		return builder.build();
 	}
 
+	
 	public MongoDBService getService() {
 		return service;
 	}
 
+	
 	public void setService(MongoDBService service) {
 		this.service = service;
 	}
