@@ -11,7 +11,7 @@ import javax.jws.soap.SOAPBinding;
 import org.jboss.wsf.spi.annotation.WebContext;
 
 import nl.googlethursday.projectbackoffice.entity.Project;
-import nl.googlethursday.projectbackoffice.service.ProjectServiceMongoDB;
+import nl.googlethursday.projectbackoffice.service.MongoDBService;
 
 /**
  * Webservice tbv Projecten
@@ -26,7 +26,7 @@ import nl.googlethursday.projectbackoffice.service.ProjectServiceMongoDB;
 public class ProjectWebservice {
 
 	@EJB
-	ProjectServiceMongoDB service;
+	MongoDBService service;
 
 	/**
 	 * Ophalen van alle projecten

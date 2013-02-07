@@ -30,9 +30,9 @@ import nl.googlethursday.projectbackoffice.entity.Project;
  * 
  */
 @Stateless
-public class ProjectServiceMongoDB {
+public class MongoDBService {
 
-	private final static Logger logger = LoggerFactory.getLogger(ProjectServiceMongoDB.class);
+	private final static Logger logger = LoggerFactory.getLogger(MongoDBService.class);
 
 	public final static String COLLECTIONNAAM = "projecten";
 
@@ -47,7 +47,7 @@ public class ProjectServiceMongoDB {
 	 * Constructor
 	 */
 
-	public ProjectServiceMongoDB() {
+	public MongoDBService() {
 		
 		if (connection != null) {
 			// is er een connection meegeleverd (mock) dan alleen de database
