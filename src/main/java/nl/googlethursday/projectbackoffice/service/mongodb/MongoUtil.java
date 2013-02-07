@@ -6,7 +6,11 @@ import com.mongodb.DB;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 
-
+/**
+ * Maak een mongodb connectie
+ * @author rodo
+ *
+ */
 public class MongoUtil {
 
 	private static final int port = 27017;
