@@ -1,6 +1,7 @@
 package nl.googlethursday.projectbackoffice.service.mongodb;
 
 import java.net.UnknownHostException;
+
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 
@@ -18,15 +19,12 @@ public class MongoUtil {
 		if (mongo == null) {
 			try {
 				mongo = new Mongo(host, port);
-
 			} catch (UnknownHostException e) {
 				System.out.println(e);
 			} catch (MongoException e) {
 				System.out.println(e);
 			}
-
 		}
-
 		return mongo;
 	}
 }

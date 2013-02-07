@@ -13,10 +13,12 @@ import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 
 public class MongoDBService {
+	
 	private Mongo mongo;
 	private DB mongoDB;
 	private String databasenaam = "rodofumi";
 	private DBCollection coll;
+	
 	public final static String COLLECTIONNAAM = "projecten";
 
 	public MongoDBService() {
