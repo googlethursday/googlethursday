@@ -2,8 +2,10 @@ package nl.googlethursday.projectbackoffice.service.mongodb;
 
 import java.net.UnknownHostException;
 
+import com.mongodb.DB;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
+
 
 public class MongoUtil {
 
@@ -11,7 +13,8 @@ public class MongoUtil {
 	private static final String host = "127.10.61.129";
 	public final static String USERNAME = "admin";
 	public final static String PWD = "Fe7WQ2cN2wp9";
-
+	private final static String databasenaam = "rodofumi";
+	
 	private static Mongo mongo = null;
 
 	public static Mongo getMongo() {
@@ -26,5 +29,15 @@ public class MongoUtil {
 			}
 		}
 		return mongo;
+	}
+	
+	public static DB getDB(Mongo mongodb){
+		DB db = mongodb.getDB(databasenaam);
+		if (!db.isAuthenticated()){
+			db.authenticate(USERNAME,PWD.toCharArray());
+		}
+		return db;
+		
+		
 	}
 }

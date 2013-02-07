@@ -1,5 +1,5 @@
 package nl.googlethursday.projectbackoffice.service.mongodb;
-        
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -7,7 +7,9 @@ import java.util.regex.Pattern;
 import javax.ejb.Stateless;
 
 import nl.googlethursday.projectbackoffice.entity.Project;
+
 import org.apache.commons.lang.StringUtils;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -17,19 +19,16 @@ import com.mongodb.Mongo;
 
 @Stateless
 public class MongoDBService {
-	
+
 	private Mongo mongo;
 	private DB mongoDB;
-	private String databasenaam = "rodofumi";
 	private DBCollection coll;
-	
+
 	public final static String COLLECTIONNAAM = "projecten";
 
 	public MongoDBService() {
 		mongo = MongoUtil.getMongo();
-		mongoDB = mongo.getDB(databasenaam);
-		//openshift moet mbt mongodb authenticeren
-		mongoDB.authenticate(MongoUtil.USERNAME, MongoUtil.PWD.toCharArray());
+		mongoDB = MongoUtil.getDB(mongo);
 	}
 
 	/**
