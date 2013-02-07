@@ -48,6 +48,7 @@ public class ProjectServiceMongoDB {
 	 */
 
 	public ProjectServiceMongoDB() {
+		
 		if (connection != null) {
 			// is er een connection meegeleverd (mock) dan alleen de database
 			// ophalen

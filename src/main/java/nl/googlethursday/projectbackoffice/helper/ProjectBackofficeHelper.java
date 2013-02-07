@@ -16,8 +16,10 @@ import nl.googlethursday.projectbackoffice.entity.jaxb.JAXBProject;
 public class ProjectBackofficeHelper {
 
 	public static Project JaxbProjectToProjectEntity(JAXBProject jaxbProject) {
+		
 		Project project = new Project(jaxbProject.getProjectNaam(), jaxbProject.getProjectOmschrijving(), jaxbProject.getProjectLeider());
 		return project;
+		
 	}
 
 	public static JAXBProject ProjectToJAXBProject(Project project)
