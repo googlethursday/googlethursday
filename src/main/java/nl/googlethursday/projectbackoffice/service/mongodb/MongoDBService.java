@@ -28,6 +28,8 @@ public class MongoDBService {
 	public MongoDBService() {
 		mongo = MongoUtil.getMongo();
 		mongoDB = mongo.getDB(databasenaam);
+		//openshift moet mbt mongodb authenticeren
+		mongoDB.authenticate(MongoUtil.USERNAME, MongoUtil.PWD.toCharArray());
 	}
 
 	/**
