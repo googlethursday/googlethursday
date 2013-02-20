@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import javax.ejb.DependsOn;
+
 import javax.ejb.Stateless;
 
 import nl.googlethursday.projectbackoffice.entity.Project;
