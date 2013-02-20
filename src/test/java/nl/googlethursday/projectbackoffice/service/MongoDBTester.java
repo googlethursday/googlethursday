@@ -8,14 +8,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
-import javax.ejb.embeddable.EJBContainer;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-
-
 import nl.googlethursday.projectbackoffice.entity.Project;
 import nl.googlethursday.projectbackoffice.service.mongodb.MongoDBService;
-import nl.googlethursday.projectbackoffice.service.mongodb.MongoUtil;
 
 import org.junit.After;
 import org.junit.Before;
@@ -200,7 +194,5 @@ public class MongoDBTester {
 		}
 		return false;
 	}
-	
 
 }
-

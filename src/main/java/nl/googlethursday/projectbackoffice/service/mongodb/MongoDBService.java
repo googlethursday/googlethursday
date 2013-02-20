@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import javax.ejb.DependsOn;
-
 import javax.ejb.Stateless;
 
 import nl.googlethursday.projectbackoffice.entity.Project;
@@ -13,7 +11,6 @@ import nl.googlethursday.projectbackoffice.entity.Project;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -24,8 +21,9 @@ import com.mongodb.Mongo;
 
 /**
  * MongoDB operaties tbv project
+ * 
  * @author rodo
- *
+ * 
  */
 @Stateless
 public class MongoDBService {
@@ -36,23 +34,25 @@ public class MongoDBService {
 
 	public final static String COLLECTIONNAAM = "projecten";
 	private final static Logger logger = LoggerFactory.getLogger(MongoDBService.class);
-	
+
 	public MongoDBService() {
 		// haal mongo connectie op
 		mongo = MongoUtil.getMongo();
-		
+
 		// haal de specifieke database op
 		mongoDB = MongoUtil.getDB(mongo);
 	}
 
 	/**
-	 * constructor tbv meegeven embeddedMongo 
+	 * constructor tbv meegeven embeddedMongo
+	 * 
 	 * @param input
 	 */
 	public MongoDBService(Mongo input) {
-		this.mongo=input;
+		this.mongo = input;
 		mongoDB = MongoUtil.getDB(mongo);
 	}
+
 	/**
 	 * ophalen project uit database op basis van een aangeleverd id
 	 * 
@@ -60,7 +60,7 @@ public class MongoDBService {
 	 * @return Project indien gevonden, null indien niet gevonden
 	 */
 	public Project getProject(String projectnaam) {
-		logger.debug("getProject:"+projectnaam);
+		logger.debug("getProject:" + projectnaam);
 		// ophalen collectie
 		coll = mongoDB.getCollection(COLLECTIONNAAM);
 
@@ -127,7 +127,7 @@ public class MongoDBService {
 	 * Zoek op meegegeven projectnaam
 	 */
 	public List<Project> zoekProject(String zoekstring) {
-		logger.debug("zoekProject:"+ zoekstring);
+		logger.debug("zoekProject:" + zoekstring);
 		if (StringUtils.isEmpty(zoekstring)) {
 			return null;
 		}
@@ -167,7 +167,7 @@ public class MongoDBService {
 	 * @param project
 	 */
 	public boolean opslaanProject(Project project) {
-		logger.debug("opslaanProject:"+ project.getProjectNaam());
+		logger.debug("opslaanProject:" + project.getProjectNaam());
 		// ophalen collectie
 		coll = mongoDB.getCollection(COLLECTIONNAAM);
 
@@ -194,7 +194,7 @@ public class MongoDBService {
 	 * @return
 	 */
 	public boolean verwijderProject(Project project) {
-		logger.debug("verwijderProject:"+ project.getProjectNaam());
+		logger.debug("verwijderProject:" + project.getProjectNaam());
 		// ophalen collectie
 		coll = mongoDB.getCollection(COLLECTIONNAAM);
 
