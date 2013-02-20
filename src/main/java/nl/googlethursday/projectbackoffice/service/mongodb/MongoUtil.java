@@ -19,7 +19,6 @@ import com.mongodb.MongoException;
  *
  */
 @Stateless
-@DependsOn("ConfigService")
 public class MongoUtil {
 
 	// default openshift poort & ip adres + 
@@ -29,8 +28,6 @@ public class MongoUtil {
 	public final static String PWD = "Fe7WQ2cN2wp9";
 	private final static String databasenaam = "rodofumi";
 	
-	@EJB
-	private static ConfigService configService;
 	
 	private static Mongo mongo = null;
 
@@ -49,11 +46,6 @@ public class MongoUtil {
 		return mongo;
 	}
 
-	@PostConstruct
-	public void opstartSpul(){
-		System.out.println(configService.getProperty("IP"));
-
-	}
 	
 	public static DB getDB(Mongo mongodb){
 		DB db = mongodb.getDB(databasenaam);
