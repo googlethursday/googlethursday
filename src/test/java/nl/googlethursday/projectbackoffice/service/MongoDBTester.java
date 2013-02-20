@@ -10,13 +10,11 @@ import java.net.UnknownHostException;
 
 import nl.googlethursday.projectbackoffice.entity.Project;
 import nl.googlethursday.projectbackoffice.service.mongodb.MongoDBService;
-import nl.googlethursday.projectbackoffice.service.mongodb.MongoUtil;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.Mongo;
 
 import de.flapdoodle.embed.mongo.MongodExecutable;
@@ -57,7 +55,7 @@ public class MongoDBTester {
 		} catch (IOException e) {
 		}
 
-		//MongoDBService.connection = mongoConnection;
+		// MongoDBService.connection = mongoConnection;
 
 	}
 
@@ -75,7 +73,7 @@ public class MongoDBTester {
 	@Test
 	public void testGetProjectsInitieel() {
 
-		teTestenService = new MongoDBService();
+		teTestenService = new MongoDBService(mongoConnection);
 
 		// test
 		assertNull(teTestenService.getProjects());
@@ -86,9 +84,10 @@ public class MongoDBTester {
 	 */
 	@Test
 	public void testGetProjects() {
-		teTestenService = new MongoDBService();
+		teTestenService = new MongoDBService(mongoConnection);
 
-		//MongoDBUtil.db.createCollection(MongoDBService.COLLECTIONNAAM, new BasicDBObject());
+		// MongoDBUtil.db.createCollection(MongoDBService.COLLECTIONNAAM, new
+		// BasicDBObject());
 
 		// 1
 		Project p0 = new Project("naam0", "omschrijving0", "pl0");
@@ -129,8 +128,9 @@ public class MongoDBTester {
 	 */
 	@Test
 	public void testGetProject() {
-		teTestenService = new MongoDBService();
-		//MongoDBUtil.db.createCollection(MongoDBService.COLLECTIONNAAM, new BasicDBObject());
+		teTestenService = new MongoDBService(mongoConnection);
+		// MongoDBUtil.db.createCollection(MongoDBService.COLLECTIONNAAM, new
+		// BasicDBObject());
 
 		// nu testen niet aanwezig
 		Project gevondenProject = teTestenService.getProject("naam2");
@@ -150,7 +150,7 @@ public class MongoDBTester {
 	@Test
 	public void testZoekProject() {
 
-		teTestenService = new MongoDBService();
+		teTestenService = new MongoDBService(mongoConnection);
 
 		// setup
 		Project p1 = new Project("naam1", "omschrijving1", "pl1");

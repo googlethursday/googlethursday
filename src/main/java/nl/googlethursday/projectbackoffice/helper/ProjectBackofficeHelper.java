@@ -22,6 +22,11 @@ public class ProjectBackofficeHelper {
 		
 	}
 
+	/**
+	 * converteren van  JAXBProject naar een Project
+	 * @param projectList
+	 * @return
+	 */
 	public static JAXBProject ProjectToJAXBProject(Project project)
 			throws JAXBException {
 		if (project == null) {

@@ -72,6 +72,13 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.7.2</version>
 		</dependency>
+		<dependency>
+			<groupId>
+				com.google.code.maven-play-plugin.com.google.code.morphia
+			</groupId>
+			<artifactId>morphia</artifactId>
+			<version>1.00-20110403</version>
+		</dependency>
 	</dependencies>
 	<profiles>
 		<profile>

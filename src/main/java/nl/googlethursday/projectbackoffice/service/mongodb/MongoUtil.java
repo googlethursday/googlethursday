@@ -15,6 +15,7 @@ public class MongoUtil {
 
 	private static final int port = 27017;
 	private static final String host = "127.10.61.129";
+
 	public final static String USERNAME = "admin";
 	public final static String PWD = "Fe7WQ2cN2wp9";
 	private final static String databasenaam = "rodofumi";
@@ -44,4 +45,5 @@ public class MongoUtil {
 		
 		
 	}
+
 }

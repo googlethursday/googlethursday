@@ -36,10 +36,21 @@ public class MongoDBService {
 	private final static Logger logger = LoggerFactory.getLogger(MongoDBService.class);
 	
 	public MongoDBService() {
+		// haal mongo connectie op
 		mongo = MongoUtil.getMongo();
+		
+		// haal de specifieke database op
 		mongoDB = MongoUtil.getDB(mongo);
 	}
 
+	/**
+	 * constructor tbv meegeven embeddedMongo 
+	 * @param input
+	 */
+	public MongoDBService(Mongo input) {
+		this.mongo=input;
+		mongoDB = MongoUtil.getDB(mongo);
+	}
 	/**
 	 * ophalen project uit database op basis van een aangeleverd id
 	 * 

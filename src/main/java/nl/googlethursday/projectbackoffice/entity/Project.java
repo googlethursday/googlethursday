@@ -1,11 +1,17 @@
 package nl.googlethursday.projectbackoffice.entity;
 
+import org.bson.types.ObjectId;
+
+import com.google.code.morphia.annotations.Entity;
+import com.google.code.morphia.annotations.Id;
+
 /**
  * Project Entiteit bevat informatie over het project
  * @author rodo
  */
+@Entity
 public class Project {
-
+	@Id private ObjectId id;
 	private String projectNaam;
 	private String projectOmschrijving;
 	private String projectLeider;
