@@ -47,6 +47,16 @@ public class ProjectRestService {
 	// wordt gebruikt om de juiste http response terug te geven
 	ResponseBuilder builder;
 
+	
+	@GET
+	@Path("/json")
+	public List<Project> getJsonProjects(){
+		List <Project> projects = new ArrayList<Project>();
+		projects.add(new Project("jaap1","en","martijn"));
+		projects.add(new Project("martijn2","en","jaap"));
+		return projects;
+	}
+	
 	/**
 	 * Ophalen alle projecten
 	 * 
