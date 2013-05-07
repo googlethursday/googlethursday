@@ -10,15 +10,16 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
+
 
 
 @Singleton
 @Startup
 public class ConfigService {
 	Properties properties = new Properties();
-	Logger logger = LoggerFactory.getLogger(ConfigService.class);
+	
+	Logger logger = Logger.getLogger(ConfigService.class);
 	
 	public ConfigService() {
 		super();
