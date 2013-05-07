@@ -10,7 +10,9 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 
 
@@ -19,7 +21,7 @@ import org.apache.log4j.Logger;
 public class ConfigService {
 	Properties properties = new Properties();
 	
-	Logger logger = Logger.getLogger(ConfigService.class);
+	Logger logger = LoggerFactory.getLogger(ConfigService.class);
 	
 	public ConfigService() {
 		super();
