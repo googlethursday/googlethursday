@@ -2,6 +2,7 @@ package nl.googlethursday.projectbackoffice.helper;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Properties;
 
 
@@ -40,10 +41,11 @@ public class ConfigService {
 			logger.debug("end config-spul, PORT = " + getProperty("PORT"));
 			System.out.println("end config-spul, PORT = " + getProperty("PORT"));
 		} 
-		catch (Exception e) {
+		catch (FileNotFoundException e) {
 			logger.debug("handmatig zetten van properties");
+			System.out.println("handmatig zetten van properties");
 			properties.setProperty("PORT", "27017");
-			properties.setProperty("IP", "localhost");
+			properties.setProperty("IP", "127.10.61.129");
 		}
 	}
 	
