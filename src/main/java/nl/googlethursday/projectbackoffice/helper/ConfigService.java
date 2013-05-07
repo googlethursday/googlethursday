@@ -29,13 +29,22 @@ public class ConfigService {
 		logger.debug("opstarten config-spul");
 		System.out.println("opstarten config-spul");
 		
-		//String props = "D://java//GIT//googlethursday//src//main//resources//props//rodofumi.properties"; 
-		String props = Thread.currentThread().getContextClassLoader().getResource("props").getPath() + File.separator + "rodofumi.properties";
+		try {
+			
 		
-		properties.load(new FileInputStream(props));
+		//	String props = "D://java//GIT//googlethursday//src//main//resources//props//rodofumi.properties"; 
+			String props = Thread.currentThread().getContextClassLoader().getResource("props").getPath() + File.separator + "rodofumi.properties";
 		
-		logger.debug("end config-spul, PORT = " + getProperty("PORT"));
-		System.out.println("end config-spul, PORT = " + getProperty("PORT"));
+			properties.load(new FileInputStream(props));
+		
+			logger.debug("end config-spul, PORT = " + getProperty("PORT"));
+			System.out.println("end config-spul, PORT = " + getProperty("PORT"));
+		} 
+		catch (Exception e) {
+			logger.debug("handmatig zetten van properties");
+			properties.setProperty("PORT", "27017");
+			properties.setProperty("IP", "localhost");
+		}
 	}
 	
 	public String getProperty(String property){
