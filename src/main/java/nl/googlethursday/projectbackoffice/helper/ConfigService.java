@@ -6,11 +6,19 @@ import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
+import javax.ejb.Startup;
 
 
 @Singleton
+@Startup
 public class ConfigService {
 	Properties properties = new Properties();
+
+	
+	public ConfigService() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	@PostConstruct
 	public void startConfig() throws Exception{

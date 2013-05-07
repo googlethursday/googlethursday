@@ -37,7 +37,7 @@ public class MongoDBService {
 
 	public MongoDBService() {
 		// haal mongo connectie op
-		mongo = MongoUtil.getMongo();
+		mongo = (new MongoUtil()).getMongo();
 
 		// haal de specifieke database op
 		mongoDB = MongoUtil.getDB(mongo);
