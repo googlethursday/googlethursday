@@ -4,16 +4,20 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
 
+
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 @Singleton
 @Startup
 public class ConfigService {
 	Properties properties = new Properties();
-
+	Logger logger = LoggerFactory.getLogger(ConfigService.class);
 	
 	public ConfigService() {
 		super();
@@ -22,10 +26,15 @@ public class ConfigService {
 
 	@PostConstruct
 	public void startConfig() throws Exception{
+		logger.debug("opstarten config-spul");
 		System.out.println("opstarten config-spul");
+		
 		//String props = "D://java//GIT//googlethursday//src//main//resources//props//rodofumi.properties"; 
 		String props = Thread.currentThread().getContextClassLoader().getResource("props").getPath() + File.separator + "rodofumi.properties";
+		
 		properties.load(new FileInputStream(props));
+		
+		logger.debug("end config-spul, PORT = " + getProperty("PORT"));
 		System.out.println("end config-spul, PORT = " + getProperty("PORT"));
 	}
 	
