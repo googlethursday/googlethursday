@@ -12,7 +12,16 @@
             <param name="ConversionPattern" value="[%r,%c{1},%t] %m%n"/>
         </layout>
 	</appender>
-	
+
+	<appender name="applogOpenShift" class="org.apache.log4j.RollingFileAppender">
+		<param name="file" value="/var/lib/openshift/9425ccd5c0bd4cb3844a0d29d38edbc0/jbossas-7/logs/application_log-entries.log" />
+		<param name="MaxFileSize" value="100KB" />
+		<param name="MaxBackupIndex" value="10" />
+		 <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%r,%c{1},%t] %m%n"/>
+        </layout>
+	</appender>
+		
 	<appender name="eventloggerOpenShift" class="org.apache.log4j.RollingFileAppender">
 		<param name="file" value="/var/lib/openshift/9425ccd5c0bd4cb3844a0d29d38edbc0/jbossas-7/logs/event_log-entries.log" />
 		<param name="MaxFileSize" value="100KB" />
@@ -38,7 +47,7 @@
 	
 	<root>
 		<priority value="debug" />
-		<appender-ref ref="R" />
+		<appender-ref ref="applogOpenShift" />
 	</root>
 
 </log4j:configuration>
