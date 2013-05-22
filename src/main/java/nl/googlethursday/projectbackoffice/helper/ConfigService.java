@@ -10,8 +10,8 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
+
 
 
 
@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 public class ConfigService {
 	Properties properties = new Properties();
 	
-	Logger logger = LoggerFactory.getLogger(ConfigService.class);
+	Logger logger = Logger.getLogger(ConfigService.class);
 	
 	public ConfigService() {
 		super();
@@ -30,8 +30,8 @@ public class ConfigService {
 
 	@PostConstruct
 	public void startConfig() throws Exception{
-		logger.debug("opstarten config-spul");
-		System.out.println("opstarten config-spul");
+		//logger.debug("opstarten config-spul");
+		//System.out.println("opstarten config-spul");
 		
 		try {
 			
@@ -41,12 +41,12 @@ public class ConfigService {
 		
 			properties.load(new FileInputStream(props));
 		
-			logger.debug("end config-spul, PORT = " + getProperty("PORT"));
-			System.out.println("end config-spul, PORT = " + getProperty("PORT"));
+			//logger.debug("end config-spul, PORT = " + getProperty("PORT"));
+			//System.out.println("end config-spul, PORT = " + getProperty("PORT"));
 		} 
 		catch (FileNotFoundException e) {
-			logger.debug("handmatig zetten van properties");
-			System.out.println("handmatig zetten van properties");
+			//logger.debug("handmatig zetten van properties");
+			//System.out.println("handmatig zetten van properties");
 			properties.setProperty("PORT", "27017");
 			properties.setProperty("IP", "127.10.61.129");
 		}

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -21,7 +22,9 @@ import javax.xml.bind.JAXBException;
 import nl.googlethursday.projectbackoffice.entity.Project;
 import nl.googlethursday.projectbackoffice.entity.jaxb.JAXBProject;
 import nl.googlethursday.projectbackoffice.helper.ProjectBackofficeHelper;
+import nl.googlethursday.projectbackoffice.interceptors.LoggingInterceptor;
 import nl.googlethursday.projectbackoffice.service.mongodb.MongoDBService;
+import nl.googlethursday.projectbackoffice.sessioncontext.SessionContext;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -36,28 +39,29 @@ import org.slf4j.LoggerFactory;
 
 @Stateless
 @Path("/projectService")
-@Produces({"application/json","application/xml"})
+@Produces({ "application/json", "application/xml" })
+@Interceptors(LoggingInterceptor.class)
 public class ProjectRestService {
 
 	private final static Logger logger = LoggerFactory.getLogger(ProjectRestService.class);
-	
+	private final static org.apache.log4j.Logger logger2 = org.apache.log4j.Logger.getLogger(ProjectRestService.class);
+
 	@EJB
 	MongoDBService service;
 
 	// wordt gebruikt om de juiste http response terug te geven
 	ResponseBuilder builder;
 
-	
 	@GET
 	@Path("/json")
-	@Produces({"application/json"})
-	public List<Project> getJsonProjects(){
-		List <Project> projects = new ArrayList<Project>();
-		projects.add(new Project("jaap1","en","martijn"));
-		projects.add(new Project("martijn2","en","jaap"));
+	@Produces({ "application/json" })
+	public List<Project> getJsonProjects() {
+		List<Project> projects = new ArrayList<Project>();
+		projects.add(new Project("jaap1", "en", "martijn"));
+		projects.add(new Project("martijn2", "en", "jaap"));
 		return projects;
 	}
-	
+
 	/**
 	 * Ophalen alle projecten
 	 * 
@@ -67,12 +71,12 @@ public class ProjectRestService {
 	@Path("/")
 	public List<JAXBProject> getProjects() {
 		// ophalen van alle projecten
-		
-		//FIXME: tijdelijk voor collega's
-		List <Project> projects = new ArrayList<Project>();
-		projects.add(new Project("jaap1","en","martijn"));
-		projects.add(new Project("martijn2","en","jaap"));
-		//List<Project> projects = service.getProjects();
+
+		// FIXME: tijdelijk voor collega's
+		List<Project> projects = new ArrayList<Project>();
+		projects.add(new Project("jaap1", "en", "martijn"));
+		projects.add(new Project("martijn2", "en", "jaap"));
+		// List<Project> projects = service.getProjects();
 
 		List<JAXBProject> jaxbProjects = null;
 
@@ -92,7 +96,6 @@ public class ProjectRestService {
 	@Path("/nw")
 	public List<JAXBProject> getProjectsNw() {
 		// ophalen van alle projecten
-		logger.debug("getProjectsNw");
 		List<Project> projects = service.getProjects();
 
 		List<JAXBProject> jaxbProjects = null;
@@ -103,25 +106,29 @@ public class ProjectRestService {
 		}
 		return jaxbProjects;
 	}
-	
-	
+
 	@GET
 	@Path("/zoekProject/{projectZoekString}")
+	@Produces({ "application/json" })
 	public Response zoekProject(@PathParam("projectZoekString") String projectZoekString) {
-		logger.debug("zoekstring:"+projectZoekString);
+
+		SessionContext.getSleutel().set(projectZoekString);
+		
 		if (StringUtils.isEmpty(projectZoekString)) {
 			builder = Response.noContent();
+			logger.debug("niets gevonden");
+		} else {
+			logger.debug("iets gevonden");
+			List<Project> projectList = service.zoekProjectinDb(projectZoekString);
+
+			builder = Response.ok(projectList);
+			logger.debug("returnwaarde:" + projectList);
 		}
-		else {
-			List<Project> projectList = service.zoekProject(projectZoekString);
-			builder = Response.ok(projectList) ;
-		}
-		
+
 		return builder.build();
-	
+
 	}
-	
-	
+
 	/**
 	 * Ophalen specifiek project
 	 * 
@@ -134,6 +141,8 @@ public class ProjectRestService {
 	@Path("/{projectNaam}")
 	public Response getSpecificProject(@PathParam("projectNaam") String projectnaam) {
 
+		SessionContext.getSleutel().set(projectnaam);
+		
 		JAXBProject jaxbProject = null;
 
 		try {
@@ -155,7 +164,7 @@ public class ProjectRestService {
 		} catch (JAXBException e) {
 			// fout, geef juiste http status terug
 			builder = Response.serverError();
-			
+
 			builder.build();
 		}
 
@@ -163,9 +172,9 @@ public class ProjectRestService {
 		return builder.build();
 	}
 
-	
 	/**
-	 * POST maakt een nieuwe resource op basis van een json aanlevering maar met een op de server geidentificeerde resource (vandaar geen id meegegeven)
+	 * POST maakt een nieuwe resource op basis van een json aanlevering maar met
+	 * een op de server geidentificeerde resource (vandaar geen id meegegeven)
 	 * POST is niet idempotent.
 	 * 
 	 * @param project
@@ -181,20 +190,19 @@ public class ProjectRestService {
 	 */
 	@POST
 	public Response createProject(JAXBProject project) {
-		logger.debug("save project");
+		SessionContext.getSleutel().set(project.getProjectNaam());
+
 		service.opslaanProject(ProjectBackofficeHelper.JaxbProjectToProjectEntity(project));
 		builder = Response.ok();
 		return builder.build();
 	}
 
-	
 	/**
-	 * PUT van een project, een bestaande resource of een nieuwe resource wordt vanaf de CLIENT geinstantieerd (vandaar de id die meegegeven wordt)
-	 * PUT is idempotent.
-	 * <br/>
-	 * Voor het testen: voeg de volgende header toe
-	 * Content-Type: application/json; charset=utf-8
-	 * <br/>
+	 * PUT van een project, een bestaande resource of een nieuwe resource wordt
+	 * vanaf de CLIENT geinstantieerd (vandaar de id die meegegeven wordt) PUT
+	 * is idempotent. <br/>
+	 * Voor het testen: voeg de volgende header toe Content-Type:
+	 * application/json; charset=utf-8 <br/>
 	 * Een JSON voorbeeld: <b>{"projectOmschrijving":"omschrijvingProject2"
 	 * ,"projectLeider":"projectLeider2" ,"projectNaam":"naamProject2"}</b> <br/>
 	 * 
@@ -204,12 +212,13 @@ public class ProjectRestService {
 	 *         HTTP 200 indien ok
 	 */
 	@PUT
-	//@Path("/put/{projectId:[0-9][0-9]*}")
+	// @Path("/put/{projectId:[0-9][0-9]*}")
 	@Path("/put/{projectId}")
-	//@Consumes({"application/json"})
+	// @Consumes({"application/json"})
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createOrUpdateProject(@PathParam("projectId") String id, JAXBProject project) {
-		logger.debug("PUT van id"+id);
+		SessionContext.getSleutel().set(id);
+		
 		if (service.updateProject(ProjectBackofficeHelper.JaxbProjectToProjectEntity(project)) == true) {
 			builder = Response.ok();
 		} else {
@@ -218,7 +227,6 @@ public class ProjectRestService {
 		return builder.build();
 	}
 
-	
 	/**
 	 * Put zonder id
 	 * 
@@ -229,7 +237,7 @@ public class ProjectRestService {
 	@Path("/put")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createOrUpdateProject(JAXBProject project) {
-		logger.debug("PUT zonder id");
+		SessionContext.getSleutel().set(project.getProjectNaam());
 		if (service.updateProject(ProjectBackofficeHelper.JaxbProjectToProjectEntity(project)) == true) {
 			builder = Response.ok();
 		} else {
@@ -237,32 +245,30 @@ public class ProjectRestService {
 		}
 		return builder.build();
 	}
-	
-	
+
 	/**
 	 * Delete van een resource op basis van de aangeleverde projectnaam
+	 * 
 	 * @param projectNaam
 	 */
 	@DELETE
 	@Path("/delete/{projectNaam}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response deleteProject(@PathParam("projectNaam") String projectNaam){
-		logger.debug("delete:" + projectNaam);
+	public Response deleteProject(@PathParam("projectNaam") String projectNaam) {
+		SessionContext.getSleutel().set(projectNaam);
 		
-		if (service.verwijderProject(new Project(projectNaam,null,null)) == true) {
-			builder=Response.ok();
+		if (service.verwijderProject(new Project(projectNaam, null, null)) == true) {
+			builder = Response.ok();
 		} else {
 			builder = Response.notModified();
 		}
 		return builder.build();
 	}
 
-	
 	public MongoDBService getService() {
 		return service;
 	}
 
-	
 	public void setService(MongoDBService service) {
 		this.service = service;
 	}

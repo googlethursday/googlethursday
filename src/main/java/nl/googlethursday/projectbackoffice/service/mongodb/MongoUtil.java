@@ -39,13 +39,13 @@ public class MongoUtil {
 
 	public MongoUtil() {
 		super();
-		System.out.println("MongoUtil constructor");
+		//System.out.println("MongoUtil constructor");
 	}
 
 	@PostConstruct
 	public void setConfig() {
 		port = new Integer(config.getProperty("PORT")).intValue();
-		System.out.println("poort:" + port);
+		//System.out.println("poort:" + port);
 		host = config.getProperty("IP");
 	}
 
@@ -55,9 +55,9 @@ public class MongoUtil {
 			try {
 				mongo = new Mongo(host, port);
 			} catch (UnknownHostException e) {
-				System.out.println(e);
+				//System.out.println(e);
 			} catch (MongoException e) {
-				System.out.println(e);
+				//System.out.println(e);
 			}
 		}
 		return mongo;

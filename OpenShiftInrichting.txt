@@ -31,3 +31,14 @@ ROCKMONGO (MONGODB CONSOLE)
 https://rodofumi-googlethursday.rhcloud.com/rockmongo/
 RockMongo User    : admin
 RockMongo Password: Fe7WQ2cN2wp9
+
+
+Logentries:
+Zie o.a. .openshift/action_hooks/postdeploy waarin een push naar logentries plaatsvindt
+
+
+Logging:
+Standaard logt JBOSS naar zijn eigen logtarget, zie standalone\configuration\standalone.xml
+Pas als je een exclude opgeeft van de logclasses in meta-inf\jboss-deployment-structure.xml
+kun je een eigen log4j.xml configuratie gebruiken...
+ 

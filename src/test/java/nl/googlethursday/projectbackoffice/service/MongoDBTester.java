@@ -165,9 +165,9 @@ public class MongoDBTester {
 		teTestenService.opslaanProject(p5);
 
 		// testen
-		assertEquals(teTestenService.zoekProject("naam").size(), 5);
-		assertEquals(teTestenService.zoekProject("naam1").size(), 1);
-		assertEquals(teTestenService.zoekProject("naam4").size(), 2);
+		assertEquals(teTestenService.zoekProjectinDb("naam").size(), 5);
+		assertEquals(teTestenService.zoekProjectinDb("naam1").size(), 1);
+		assertEquals(teTestenService.zoekProjectinDb("naam4").size(), 2);
 
 	}
 

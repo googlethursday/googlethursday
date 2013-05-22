@@ -5,13 +5,16 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 
 
 import nl.googlethursday.projectbackoffice.entity.Project;
+import nl.googlethursday.projectbackoffice.interceptors.LoggingInterceptor;
+import nl.googlethursday.projectbackoffice.sessioncontext.SessionContext;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
+
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -27,6 +30,7 @@ import com.mongodb.Mongo;
  * 
  */
 @Stateless
+@Interceptors(LoggingInterceptor.class)
 public class MongoDBService {
 
 	private Mongo mongo;
@@ -34,7 +38,6 @@ public class MongoDBService {
 	private DBCollection coll;
 
 	public final static String COLLECTIONNAAM = "projecten";
-	private final static Logger logger = LoggerFactory.getLogger(MongoDBService.class);
 
 	public MongoDBService() {
 		// haal mongo connectie op
@@ -61,8 +64,8 @@ public class MongoDBService {
 	 * @return Project indien gevonden, null indien niet gevonden
 	 */
 	public Project getProject(String projectnaam) {
-		logger.debug("getProject:" + projectnaam);
 		// ophalen collectie
+		SessionContext.getSleutel().set(projectnaam);
 		coll = mongoDB.getCollection(COLLECTIONNAAM);
 
 		// zoek naar het meegeleverde id
@@ -72,6 +75,7 @@ public class MongoDBService {
 		Project project = null;
 
 		if (found != null) {
+			//logger.debug("entiteit gevonden");
 			project = createProject(found);
 		}
 
@@ -84,7 +88,7 @@ public class MongoDBService {
 	 * @return
 	 */
 	public List<Project> getProjects() {
-		logger.debug("getProjects");
+		SessionContext.getSleutel().set("");
 		DBObject one;
 		List<Project> projectList;
 		coll = mongoDB.getCollection(COLLECTIONNAAM);
@@ -120,15 +124,23 @@ public class MongoDBService {
 	 * @return true indien geslaagd, false indien projectnaam niet voorkomt
 	 */
 	public boolean updateProject(Project project) {
-		logger.debug("updateProject");
 		return opslaanProject(project);
 	}
 
 	/**
 	 * Zoek op meegegeven projectnaam
 	 */
-	public List<Project> zoekProject(String zoekstring) {
-		logger.debug("zoekProject:" + zoekstring);
+	public List<Project> zoekProjectinDb(String zoekstring) {
+		if (zoekstring.equals("1")){
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		SessionContext.getSleutel().set(zoekstring);
+		
 		if (StringUtils.isEmpty(zoekstring)) {
 			return null;
 		}
@@ -145,17 +157,21 @@ public class MongoDBService {
 		Pattern regExPattern = Pattern.compile(pattern);
 
 		db.put("projectnaam", regExPattern);
+		
 		// voer de query uit
 		DBCursor cursor = coll.find(db);
 
 		try {
 			while (cursor.hasNext()) {
+				
 				// loop over alle elementen uit de db
 				one = cursor.next();
+				//logger.debug("volgende");
 				projectList.add(createProject(one));
 			}
 
 		} finally {
+			//logger.debug("sluit connectie");
 			cursor.close();
 		}
 
@@ -168,7 +184,7 @@ public class MongoDBService {
 	 * @param project
 	 */
 	public boolean opslaanProject(Project project) {
-		logger.debug("opslaanProject:" + project.getProjectNaam());
+		SessionContext.getSleutel().set(project.getProjectNaam());
 		// ophalen collectie
 		coll = mongoDB.getCollection(COLLECTIONNAAM);
 
@@ -195,7 +211,7 @@ public class MongoDBService {
 	 * @return
 	 */
 	public boolean verwijderProject(Project project) {
-		logger.debug("verwijderProject:" + project.getProjectNaam());
+		SessionContext.getSleutel().set(project.getProjectNaam());
 		// ophalen collectie
 		coll = mongoDB.getCollection(COLLECTIONNAAM);
 
@@ -219,7 +235,6 @@ public class MongoDBService {
 	 * @return
 	 */
 	private Project createProject(DBObject dbObject) {
-		logger.debug("createProject");
 		return new Project(dbObject.get("projectnaam").toString(), dbObject.get("projectomschrijving").toString(),
 				dbObject.get("projectleider").toString());
 	}
@@ -231,6 +246,7 @@ public class MongoDBService {
 	 * @return
 	 */
 	protected DBObject createDBObject(Project project) {
+		SessionContext.getSleutel().set(project.getProjectNaam());
 		BasicDBObject document = new BasicDBObject();
 		document.put("projectnaam", project.getProjectNaam());
 		document.put("projectomschrijving", project.getProjectOmschrijving());
