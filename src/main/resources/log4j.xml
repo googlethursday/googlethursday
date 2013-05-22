@@ -13,6 +13,16 @@
         </layout>
 	</appender>
 	
+	<appender name="eventloggerOpenShift" class="org.apache.log4j.RollingFileAppender">
+		<param name="file" value="/var/lib/openshift/9425ccd5c0bd4cb3844a0d29d38edbc0/jbossas-7/log/eventlog.log" />
+		<param name="MaxFileSize" value="100KB" />
+		<param name="MaxBackupIndex" value="10" />
+		 <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%m%n"/>
+        </layout>
+	</appender>
+	
+	
 	<appender name="eventlogger" class="org.apache.log4j.RollingFileAppender">
 		<param name="file" value="logs/eventlog.log" />
 		<param name="MaxFileSize" value="100KB" />
@@ -23,7 +33,7 @@
 	</appender>
 	
 	<category name="nl.googlethursday.eventlogger">
-		<appender-ref ref="eventlogger"/>
+		<appender-ref ref="eventloggerOpenShift"/>
 	</category>
 	
 	<root>
