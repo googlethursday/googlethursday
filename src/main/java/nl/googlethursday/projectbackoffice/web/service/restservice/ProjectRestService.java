@@ -45,7 +45,11 @@ public class ProjectRestService {
 
 	private final static Logger logger = LoggerFactory.getLogger(ProjectRestService.class);
 	private final static org.apache.log4j.Logger logger2 = org.apache.log4j.Logger.getLogger(ProjectRestService.class);
+	
+	// tbv cross site json calls
 	private final static String ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
+	
+	
 	@EJB
 	MongoDBService service;
 
@@ -54,7 +58,9 @@ public class ProjectRestService {
 
 	@GET
 	@Path("/json")
-	@Produces({ "application/json" })
+	//@Produces({ "application/json" })
+	@Produces({ "application/javascript" })
+	
 	public Response getJsonProjects() {
 		List<Project> projects = new ArrayList<Project>();
 		projects.add(new Project("jaap2", "en", "martijn2"));
