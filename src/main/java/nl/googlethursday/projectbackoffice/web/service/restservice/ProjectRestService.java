@@ -45,7 +45,7 @@ public class ProjectRestService {
 
 	private final static Logger logger = LoggerFactory.getLogger(ProjectRestService.class);
 	private final static org.apache.log4j.Logger logger2 = org.apache.log4j.Logger.getLogger(ProjectRestService.class);
-
+	private final static String ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
 	@EJB
 	MongoDBService service;
 
@@ -60,7 +60,7 @@ public class ProjectRestService {
 		projects.add(new Project("jaap2", "en", "martijn2"));
 		projects.add(new Project("martijn3", "en", "jaap3"));
 		builder=Response.ok(projects);
-		builder.header("ACCESS_CONTROL_ALLOW_ORIGIN", "*");
+		builder.header(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 		return builder.build();
 	}
 
@@ -126,7 +126,7 @@ public class ProjectRestService {
 			builder = Response.ok(projectList);
 			logger.debug("returnwaarde:" + projectList);
 		}
-		builder.header("ACCESS_CONTROL_ALLOW_ORIGIN", "*");
+		builder.header(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 		return builder.build();
 
 	}
@@ -170,7 +170,7 @@ public class ProjectRestService {
 			builder.build();
 		}
 
-		builder.header("ACCESS_CONTROL_ALLOW_ORIGIN", "*");
+		builder.header(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 		
 		// geef antwoord
 		return builder.build();
@@ -198,7 +198,7 @@ public class ProjectRestService {
 
 		service.opslaanProject(ProjectBackofficeHelper.JaxbProjectToProjectEntity(project));
 		builder = Response.ok();
-		builder.header("ACCESS_CONTROL_ALLOW_ORIGIN", "*");
+		builder.header(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 		return builder.build();
 	}
 
@@ -229,7 +229,7 @@ public class ProjectRestService {
 		} else {
 			builder = Response.notModified();
 		}
-		builder.header("ACCESS_CONTROL_ALLOW_ORIGIN", "*");
+		builder.header(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 		return builder.build();
 	}
 
@@ -268,7 +268,7 @@ public class ProjectRestService {
 		} else {
 			builder = Response.notModified();
 		}
-		builder.header("ACCESS_CONTROL_ALLOW_ORIGIN", "*");
+		builder.header(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 		return builder.build();
 	}
 
