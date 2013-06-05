@@ -58,9 +58,7 @@ public class ProjectRestService {
 
 	@GET
 	@Path("/json")
-	//@Produces({ "application/json" })
-	@Produces({ "application/javascript" })
-	
+	@Produces({ "application/json" })
 	public Response getJsonProjects() {
 		List<Project> projects = new ArrayList<Project>();
 		projects.add(new Project("jaap2", "en", "martijn2"));

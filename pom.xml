@@ -87,11 +87,6 @@
 			<artifactId>morphia</artifactId>
 			<version>1.00-20110403</version>
 		</dependency>
-		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-json</artifactId>
-			<version>1.17.1</version>
-		</dependency>
 	</dependencies>
 	<profiles>
 		<profile>
