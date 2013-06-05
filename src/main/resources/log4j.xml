@@ -4,49 +4,86 @@
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
-	<appender name="R" class="org.apache.log4j.RollingFileAppender">
-		<param name="file" value="logs/application.log" />
-		<param name="MaxFileSize" value="100KB" />
-		<param name="MaxBackupIndex" value="10" />
-		 <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="[%r,%c{1},%t] %m%n"/>
-        </layout>
+	<!-- 1 alles naar console -->
+	<appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ABSOLUTE} %5p %c{1}:%L - %m%n" />
+		</layout>
 	</appender>
 
+	<!-- 2 errors naar aparte log -->
+	<appender name="errorAppender" class="org.apache.log4j.RollingFileAppender">
+		<param name="file" value="logs/applicationError.log" />
+		<param name="threshold" value="error" />
+		<param name="MaxFileSize" value="100KB" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ABSOLUTE} %5p %c{1}:%L - %m%n" />
+		</layout>
+	</appender>
+
+	<!-- 3 alles naar aparte log -->
+	<appender name="applicationLogAppender" class="org.apache.log4j.RollingFileAppender">
+		<param name="file" value="d:/logs/applicationLog.log" />
+		<param name="MaxFileSize" value="100KB" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ABSOLUTE} %5p %c{1}:%L - %m%n" />
+		</layout>
+
+	</appender>
+
+	<!-- 3a -->
 	<appender name="applogOpenShift" class="org.apache.log4j.RollingFileAppender">
-		<param name="file" value="/var/lib/openshift/9425ccd5c0bd4cb3844a0d29d38edbc0/jbossas-7/logs/application_log-entries.log" />
+		<param name="file"
+			value="/var/lib/openshift/9425ccd5c0bd4cb3844a0d29d38edbc0/jbossas-7/logs/application_log-entries.log" />
 		<param name="MaxFileSize" value="100KB" />
 		<param name="MaxBackupIndex" value="10" />
-		 <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="[%r,%c{1},%t] %m%n"/>
-        </layout>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%r,%c{1},%t] %m%n" />
+		</layout>
 	</appender>
-		
+
+	<!-- 4a -->
 	<appender name="eventloggerOpenShift" class="org.apache.log4j.RollingFileAppender">
-		<param name="file" value="/var/lib/openshift/9425ccd5c0bd4cb3844a0d29d38edbc0/jbossas-7/logs/event_log-entries.log" />
+		<param name="file"
+			value="/var/lib/openshift/9425ccd5c0bd4cb3844a0d29d38edbc0/jbossas-7/logs/event_log-entries.log" />
 		<param name="MaxFileSize" value="100KB" />
 		<param name="MaxBackupIndex" value="10" />
-		 <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%m%n"/>
-        </layout>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%m%n" />
+		</layout>
 	</appender>
-	
-	
+
+	<!-- 4 -->
 	<appender name="eventlogger" class="org.apache.log4j.RollingFileAppender">
-		<param name="file" value="logs/eventlog.log" />
+		<param name="file" value="d:/logs/eventlog.log" />
 		<param name="MaxFileSize" value="100KB" />
 		<param name="MaxBackupIndex" value="10" />
-		 <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%m%n"/>
-        </layout>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%m%n" />
+		</layout>
 	</appender>
-	
+
+
 	<category name="nl.googlethursday.eventlogger">
-		<appender-ref ref="eventloggerOpenShift"/>
+		<appender-ref ref="eventloggerOpenShift" />
+		<appender-ref ref="eventlogger" />
 	</category>
-	
+
 	<root>
 		<priority value="debug" />
+
+		<!-- log all log entries on console -->
+		<appender-ref ref="consoleAppender" />
+
+		<!-- push all error logs to errorAppender -->
+		<appender-ref ref="errorAppender" />
+
+		<!-- push all logs to appender -->
+		<appender-ref ref="applicationLogAppender" />
+		
+		<!-- openshift -->
 		<appender-ref ref="applogOpenShift" />
 	</root>
 

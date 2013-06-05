@@ -55,11 +55,13 @@ public class ProjectRestService {
 	@GET
 	@Path("/json")
 	@Produces({ "application/json" })
-	public List<Project> getJsonProjects() {
+	public Response getJsonProjects() {
 		List<Project> projects = new ArrayList<Project>();
-		projects.add(new Project("jaap1", "en", "martijn"));
-		projects.add(new Project("martijn2", "en", "jaap"));
-		return projects;
+		projects.add(new Project("jaap2", "en", "martijn2"));
+		projects.add(new Project("martijn3", "en", "jaap3"));
+		builder=Response.ok(projects);
+		builder.header("ACCESS_CONTROL_ALLOW_ORIGIN", "*");
+		return builder.build();
 	}
 
 	/**
@@ -124,7 +126,7 @@ public class ProjectRestService {
 			builder = Response.ok(projectList);
 			logger.debug("returnwaarde:" + projectList);
 		}
-
+		builder.header("ACCESS_CONTROL_ALLOW_ORIGIN", "*");
 		return builder.build();
 
 	}
@@ -164,10 +166,12 @@ public class ProjectRestService {
 		} catch (JAXBException e) {
 			// fout, geef juiste http status terug
 			builder = Response.serverError();
-
+			
 			builder.build();
 		}
 
+		builder.header("ACCESS_CONTROL_ALLOW_ORIGIN", "*");
+		
 		// geef antwoord
 		return builder.build();
 	}
@@ -194,6 +198,7 @@ public class ProjectRestService {
 
 		service.opslaanProject(ProjectBackofficeHelper.JaxbProjectToProjectEntity(project));
 		builder = Response.ok();
+		builder.header("ACCESS_CONTROL_ALLOW_ORIGIN", "*");
 		return builder.build();
 	}
 
@@ -224,6 +229,7 @@ public class ProjectRestService {
 		} else {
 			builder = Response.notModified();
 		}
+		builder.header("ACCESS_CONTROL_ALLOW_ORIGIN", "*");
 		return builder.build();
 	}
 
@@ -262,6 +268,7 @@ public class ProjectRestService {
 		} else {
 			builder = Response.notModified();
 		}
+		builder.header("ACCESS_CONTROL_ALLOW_ORIGIN", "*");
 		return builder.build();
 	}
 
