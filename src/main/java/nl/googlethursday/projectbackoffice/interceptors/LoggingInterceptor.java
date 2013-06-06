@@ -48,8 +48,8 @@ public class LoggingInterceptor {
 			stopWatch.stop();
 			stopWatch.getTime();
 			Calendar cal = Calendar.getInstance();
-			
-			logger.debug(dateFormat.format(cal) + "," + method + "," + id + "," + sleutel + "," + stopWatch);
+			Date date = cal.getTime();
+			logger.debug(dateFormat.format(date) + "," + method + "," + id + "," + sleutel + "," + stopWatch);
 		}
 	}
 }
