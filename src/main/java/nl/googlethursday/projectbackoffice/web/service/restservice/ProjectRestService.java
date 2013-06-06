@@ -9,6 +9,8 @@ import javax.interceptor.Interceptors;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -44,27 +46,55 @@ import org.slf4j.LoggerFactory;
 public class ProjectRestService {
 
 	private final static Logger logger = LoggerFactory.getLogger(ProjectRestService.class);
-	
+
 	private final static org.apache.log4j.Logger logger2 = org.apache.log4j.Logger.getLogger(ProjectRestService.class);
-	
+
 	// tbv cross site json calls
 	private final static String ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
-	
-	
+
 	@EJB
 	MongoDBService service;
 
 	// wordt gebruikt om de juiste http response terug te geven
 	ResponseBuilder builder;
 
+	/**
+	 * Deze methode wordt gebruikt om o.a. onder Chrome een CORS request (Cross
+	 * origin request) mogelijk te maken. Hiervoor zendt de client eerst een
+	 * HTTP OPTIONS request (preflight request). Pas na een correcte response
+	 * wordt de juiste methode aangeroepen. Gebruik je deze methode niet dan volgt een 
+	 * "Origin [url:port] is not allowed by Access-Control-Allow-Origin" exceptie... 
+	 * 
+	 * @param requestMethod
+	 * @param requestHeaders
+	 * @return
+	 */
+	@OPTIONS
+	@Path("/{path:.*}")
+	public Response handleCORSRequest(@HeaderParam("Access-Control-Request-Method") final String requestMethod,
+			@HeaderParam("Access-Control-Request-Headers") final String requestHeaders) {
+		final ResponseBuilder retValue = Response.ok();
+		System.out.println("xxx");
+		if (requestHeaders != null)
+			retValue.header("Access-Control-Allow-Headers", requestHeaders);
+
+		if (requestMethod != null)
+			retValue.header("Access-Control-Allow-Methods", requestMethod);
+
+		retValue.header("Access-Control-Allow-Origin", "*");
+
+		return retValue.build();
+	}
+
 	@GET
 	@Path("/json")
 	@Produces({ "application/json" })
 	public Response getJsonProjects() {
+		System.out.println("yyy");
 		List<Project> projects = new ArrayList<Project>();
 		projects.add(new Project("jaap2", "en", "martijn2"));
 		projects.add(new Project("martijn3", "en", "jaap3"));
-		builder=Response.ok(projects);
+		builder = Response.ok(projects);
 		builder.header(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 		return builder.build();
 	}
@@ -118,7 +148,7 @@ public class ProjectRestService {
 	public Response zoekProject(@PathParam("projectZoekString") String projectZoekString) {
 
 		SessionContext.getSleutel().set(projectZoekString);
-		
+
 		if (StringUtils.isEmpty(projectZoekString)) {
 			builder = Response.noContent();
 			logger.debug("niets gevonden");
@@ -147,7 +177,7 @@ public class ProjectRestService {
 	public Response getSpecificProject(@PathParam("projectNaam") String projectnaam) {
 
 		SessionContext.getSleutel().set(projectnaam);
-		
+
 		JAXBProject jaxbProject = null;
 
 		try {
@@ -169,12 +199,12 @@ public class ProjectRestService {
 		} catch (JAXBException e) {
 			// fout, geef juiste http status terug
 			builder = Response.serverError();
-			
+
 			builder.build();
 		}
 
 		builder.header(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
-		
+
 		// geef antwoord
 		return builder.build();
 	}
@@ -226,7 +256,7 @@ public class ProjectRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createOrUpdateProject(@PathParam("projectId") String id, JAXBProject project) {
 		SessionContext.getSleutel().set(id);
-		
+
 		if (service.updateProject(ProjectBackofficeHelper.JaxbProjectToProjectEntity(project)) == true) {
 			builder = Response.ok();
 		} else {
@@ -265,7 +295,7 @@ public class ProjectRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response deleteProject(@PathParam("projectNaam") String projectNaam) {
 		SessionContext.getSleutel().set(projectNaam);
-		
+
 		if (service.verwijderProject(new Project(projectNaam, null, null)) == true) {
 			builder = Response.ok();
 		} else {
