@@ -11,6 +11,7 @@ import javax.interceptor.InvocationContext;
 
 import nl.googlethursday.projectbackoffice.sessioncontext.SessionContext;
 
+import org.apache.commons.lang.time.StopWatch;
 import org.apache.log4j.Logger;
 
 /**
@@ -38,17 +39,17 @@ public class LoggingInterceptor {
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
 
-		
-		Calendar cal = Calendar.getInstance();
-		long start = new Date().getTime();
-		
+		StopWatch stopWatch = new StopWatch();
+		stopWatch.start();
+
 		try {
 			return ic.proceed();
 		} finally {
-			Date end = cal.getTime();
-			long tijd = new Date().getTime() - start;
-			System.out.println(tijd);
-			logger.debug(cal.getTime() + "," + method + "," + id + "," + sleutel + "," + tijd);
+			stopWatch.stop();
+			stopWatch.getTime();
+			Calendar cal = Calendar.getInstance();
+			
+			logger.debug(dateFormat.format(cal) + "," + method + "," + id + "," + sleutel + "," + stopWatch);
 		}
 	}
 }
