@@ -44,6 +44,7 @@ import org.slf4j.LoggerFactory;
 public class ProjectRestService {
 
 	private final static Logger logger = LoggerFactory.getLogger(ProjectRestService.class);
+	
 	private final static org.apache.log4j.Logger logger2 = org.apache.log4j.Logger.getLogger(ProjectRestService.class);
 	
 	// tbv cross site json calls
@@ -77,7 +78,6 @@ public class ProjectRestService {
 	@Path("/")
 	public List<JAXBProject> getProjects() {
 		// ophalen van alle projecten
-
 		// FIXME: tijdelijk voor collega's
 		List<Project> projects = new ArrayList<Project>();
 		projects.add(new Project("jaap1", "en", "martijn"));
@@ -103,7 +103,6 @@ public class ProjectRestService {
 	public List<JAXBProject> getProjectsNw() {
 		// ophalen van alle projecten
 		List<Project> projects = service.getProjects();
-
 		List<JAXBProject> jaxbProjects = null;
 
 		if (projects != null) {
