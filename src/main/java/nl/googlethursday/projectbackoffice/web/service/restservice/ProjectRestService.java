@@ -74,7 +74,7 @@ public class ProjectRestService {
 	public Response handleCORSRequest(@HeaderParam("Access-Control-Request-Method") final String requestMethod,
 			@HeaderParam("Access-Control-Request-Headers") final String requestHeaders) {
 		final ResponseBuilder retValue = Response.ok();
-		System.out.println("xxx");
+		
 		if (requestHeaders != null)
 			retValue.header("Access-Control-Allow-Headers", requestHeaders);
 
@@ -90,7 +90,7 @@ public class ProjectRestService {
 	@Path("/json")
 	@Produces({ "application/json" })
 	public Response getJsonProjects() {
-		System.out.println("yyy");
+		logger.debug("getJsonProjects");
 		List<Project> projects = new ArrayList<Project>();
 		projects.add(new Project("jaap2", "en", "martijn2"));
 		projects.add(new Project("martijn3", "en", "jaap3"));
@@ -109,6 +109,7 @@ public class ProjectRestService {
 	public List<JAXBProject> getProjects() {
 		// ophalen van alle projecten
 		// FIXME: tijdelijk voor collega's
+		logger.debug("getProjects");
 		List<Project> projects = new ArrayList<Project>();
 		projects.add(new Project("jaap1", "en", "martijn"));
 		projects.add(new Project("martijn2", "en", "jaap"));
