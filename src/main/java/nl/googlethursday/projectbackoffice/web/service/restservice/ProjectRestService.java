@@ -32,25 +32,19 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * JAX-RS Example
- * 
- * This class produces a RESTful service to read the contents of the members
- * table.
- */
 
+/**
+ * Deze restservice geeft toegang tot de verzameling projecten in de onderliggende database
+ * @author rodo
+ *
+ */
 @Stateless
 @Path("/projectService")
 @Produces({ "application/json", "application/xml" })
 @Interceptors(LoggingInterceptor.class)
 public class ProjectRestService {
 
-	private final static Logger logger = LoggerFactory.getLogger(ProjectRestService.class);
-
-	private final static org.apache.log4j.Logger logger2 = org.apache.log4j.Logger.getLogger(ProjectRestService.class);
-
-	// tbv cross site json calls
-	private final static String ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
+	private static Logger logger = LoggerFactory.getLogger(ProjectRestService.class);
 
 	@EJB
 	MongoDBService service;
@@ -81,22 +75,25 @@ public class ProjectRestService {
 		if (requestMethod != null)
 			retValue.header("Access-Control-Allow-Methods", requestMethod);
 
-		retValue.header("Access-Control-Allow-Origin", "*");
-
-		return retValue.build();
+		return buildResponse(retValue);
 	}
 
+	
+	
+	
 	@GET
 	@Path("/json")
 	@Produces({ "application/json" })
 	public Response getJsonProjects() {
 		logger.debug("getJsonProjects");
+		
 		List<Project> projects = new ArrayList<Project>();
 		projects.add(new Project("jaap2", "en", "martijn2"));
 		projects.add(new Project("martijn3", "en", "jaap3"));
+		
 		builder = Response.ok(projects);
-		builder.header(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
-		return builder.build();
+		
+		return buildResponse(builder);
 	}
 
 	/**
@@ -110,6 +107,7 @@ public class ProjectRestService {
 		// ophalen van alle projecten
 		// FIXME: tijdelijk voor collega's
 		logger.debug("getProjects");
+		
 		List<Project> projects = new ArrayList<Project>();
 		projects.add(new Project("jaap1", "en", "martijn"));
 		projects.add(new Project("martijn2", "en", "jaap"));
@@ -147,7 +145,8 @@ public class ProjectRestService {
 	@Path("/zoekProject/{projectZoekString}")
 	@Produces({ "application/json" })
 	public Response zoekProject(@PathParam("projectZoekString") String projectZoekString) {
-
+		logger.debug("zoekProject");
+		
 		SessionContext.getSleutel().set(projectZoekString);
 
 		if (StringUtils.isEmpty(projectZoekString)) {
@@ -160,8 +159,8 @@ public class ProjectRestService {
 			builder = Response.ok(projectList);
 			logger.debug("returnwaarde:" + projectList);
 		}
-		builder.header(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
-		return builder.build();
+		
+		return buildResponse(builder);
 
 	}
 
@@ -176,7 +175,8 @@ public class ProjectRestService {
 	@GET
 	@Path("/{projectNaam}")
 	public Response getSpecificProject(@PathParam("projectNaam") String projectnaam) {
-
+		logger.debug("getSpecificProject");
+		
 		SessionContext.getSleutel().set(projectnaam);
 
 		JAXBProject jaxbProject = null;
@@ -204,10 +204,7 @@ public class ProjectRestService {
 			builder.build();
 		}
 
-		builder.header(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
-
-		// geef antwoord
-		return builder.build();
+		return buildResponse(builder);
 	}
 
 	/**
@@ -228,12 +225,13 @@ public class ProjectRestService {
 	 */
 	@POST
 	public Response createProject(JAXBProject project) {
+		logger.debug("createProject");
+		
 		SessionContext.getSleutel().set(project.getProjectNaam());
 
 		service.opslaanProject(ProjectBackofficeHelper.JaxbProjectToProjectEntity(project));
 		builder = Response.ok();
-		builder.header(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
-		return builder.build();
+		return buildResponse(builder);
 	}
 
 	/**
@@ -256,6 +254,8 @@ public class ProjectRestService {
 	// @Consumes({"application/json"})
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createOrUpdateProject(@PathParam("projectId") String id, JAXBProject project) {
+		logger.debug("createOrUpdateProject");
+		
 		SessionContext.getSleutel().set(id);
 
 		if (service.updateProject(ProjectBackofficeHelper.JaxbProjectToProjectEntity(project)) == true) {
@@ -263,8 +263,7 @@ public class ProjectRestService {
 		} else {
 			builder = Response.notModified();
 		}
-		builder.header(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
-		return builder.build();
+		return buildResponse(builder);
 	}
 
 	/**
@@ -277,13 +276,15 @@ public class ProjectRestService {
 	@Path("/put")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createOrUpdateProject(JAXBProject project) {
+		logger.debug("createOrUpdateProject");
+		
 		SessionContext.getSleutel().set(project.getProjectNaam());
 		if (service.updateProject(ProjectBackofficeHelper.JaxbProjectToProjectEntity(project)) == true) {
 			builder = Response.ok();
 		} else {
 			builder = Response.notModified();
 		}
-		return builder.build();
+		return buildResponse(builder);
 	}
 
 	/**
@@ -295,6 +296,8 @@ public class ProjectRestService {
 	@Path("/delete/{projectNaam}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response deleteProject(@PathParam("projectNaam") String projectNaam) {
+		logger.debug("deleteProject");
+		
 		SessionContext.getSleutel().set(projectNaam);
 
 		if (service.verwijderProject(new Project(projectNaam, null, null)) == true) {
@@ -302,10 +305,20 @@ public class ProjectRestService {
 		} else {
 			builder = Response.notModified();
 		}
-		builder.header(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
-		return builder.build();
+		return buildResponse(builder);
 	}
 
+	/**
+	 * standaard opbouwen van de response
+	 * @param res
+	 * @return
+	 */
+	private Response buildResponse(ResponseBuilder res){
+		// tbv cross site json calls zetten van de header...
+		res.header("Access-Control-Allow-Origin", "*");
+		return res.build();
+	}
+	
 	public MongoDBService getService() {
 		return service;
 	}
@@ -313,4 +326,5 @@ public class ProjectRestService {
 	public void setService(MongoDBService service) {
 		this.service = service;
 	}
+	
 }

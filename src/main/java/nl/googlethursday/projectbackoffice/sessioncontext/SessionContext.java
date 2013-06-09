@@ -1,7 +1,7 @@
 package nl.googlethursday.projectbackoffice.sessioncontext;
 
 /**
- * Sessioncontext 
+ * Sessioncontext tbv eventlogging
  * @author rodo
  *
  */

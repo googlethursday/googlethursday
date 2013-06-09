@@ -10,12 +10,17 @@ import com.google.code.morphia.dao.BasicDAO;
 import com.mongodb.Mongo;
 
 /**
- * ProjectDAO
+ * ProjectDAO tbv ontsluiten MongoDB database
  * @author rodo
  *
  */
 public class ProjectDAO extends BasicDAO<Project, ObjectId>{
-
+/**
+ * constructor
+ * @param mongo
+ * @param morphia
+ * @param dbName
+ */
 	protected ProjectDAO(Mongo mongo, Morphia morphia, String dbName) {
 		super(mongo, morphia, dbName);
 	}

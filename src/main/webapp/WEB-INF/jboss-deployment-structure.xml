@@ -2,6 +2,7 @@
 <jboss-deployment-structure>
    <deployment>
      <exclusions>
+     	<!-- excluden om eigen log4j configuratie te kunnen gebruiken -->
        <module name="org.apache.log4j" />
      </exclusions>
    </deployment>

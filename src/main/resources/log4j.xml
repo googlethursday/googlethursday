@@ -36,7 +36,7 @@
 
 	<!-- 3a -->
 	<!--  alles  -->
-	<appender name="applogOpenShift" class="org.apache.log4j.RollingFileAppender">
+<!-- 	<appender name="applogOpenShift" class="org.apache.log4j.RollingFileAppender">
 		
 		<param name="file"
 			value="/var/lib/openshift/9425ccd5c0bd4cb3844a0d29d38edbc0/jbossas-7/logs/application_log-entries.log" />
@@ -47,10 +47,11 @@
 			<param name="ConversionPattern" value="[%r,%c{1},%t] %m%n" />
 		</layout>
 	</appender>
-
+ -->
+ 
 	<!-- 4a -->
 	<!-- alle eventlogging -->
-	<appender name="eventloggerOpenShift" class="org.apache.log4j.RollingFileAppender">
+<!-- 	<appender name="eventloggerOpenShift" class="org.apache.log4j.RollingFileAppender">
 		<param name="file"
 			value="/var/lib/openshift/9425ccd5c0bd4cb3844a0d29d38edbc0/jbossas-7/logs/event_log-entries.log" />
 		<param name="MaxFileSize" value="1024KB" />
@@ -59,11 +60,12 @@
 			<param name="ConversionPattern" value="%m%n" />
 		</layout>
 	</appender>
-
+ -->
+ 
 	<!-- 4 -->
 	<!-- alle eventlogging -->
 	<appender name="eventlogger" class="org.apache.log4j.RollingFileAppender">
-		<param name="file" value="d:/logs/eventlog.log" />
+		<param name="file" value="logs/eventlog.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="10" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -71,9 +73,8 @@
 		</layout>
 	</appender>
 
-	<!-- configuratie van de eventlogger -->
+	<!-- configuratie van de eventlogger, zend alles van de specifieke package naar de specifieke logger -->
 	<category name="nl.googlethursday.eventlogger">
-		<appender-ref ref="eventloggerOpenShift" />
 		<appender-ref ref="eventlogger" />
 	</category>
 
@@ -89,8 +90,6 @@
 		<!-- push all logs to appender -->
 		<appender-ref ref="applicationLogAppender" />
 		
-		<!-- openshift -->
-		<appender-ref ref="applogOpenShift" />
 	</root>
 
 </log4j:configuration>

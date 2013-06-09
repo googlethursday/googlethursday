@@ -15,17 +15,43 @@ import org.jboss.resteasy.core.ServerResponse;
 import org.jboss.resteasy.spi.Failure;
 import org.jboss.resteasy.spi.HttpRequest;
 import org.jboss.resteasy.spi.interception.PreProcessInterceptor;
-
+/**
+ * Serviceinterceptor tbv opslaan metagegevens tbv eventlogging
+ * <br>
+ * Jboss kent een aantal interceptors: 
+ * <ul>
+ * <li>
+ * MessageBodyReader and MessageBodyWriter Interceptors: Invoked around the HTTP Request body marshalling/unmarshalling;
+ * </li>
+ * <li>
+ * Method execution interceptors: Invoked before(PreProcessInterceptor) and after (PostProcessInterceptor) the JAX-RS method execution;
+ * </li>
+ * <li>
+ * Client side interceptors: Invoked before and after the client performed the request(if you call the ClientExecutionContext proceed() method 
+ * it will perform the request).
+ * </li>
+ * </ul>
+ * We gebruiken hier de preProcessInterceptor om het verkeer te meten
+ * 
+ * @author rodo
+ *
+ */
 @Provider
 @ServerInterceptor
 public class RESTEasyServiceInterceptor implements PreProcessInterceptor {
 
+	/**
+	 * De binnenkomende request
+	 */
 	@Context
 	HttpServletRequest servletRequest;
 
 	@Override
-	public ServerResponse preProcess(HttpRequest arg0, ResourceMethod resourceMethod) throws Failure, WebApplicationException {
+	public ServerResponse preProcess(HttpRequest httpRequest, ResourceMethod resourceMethod) throws Failure, WebApplicationException {
 		
+		/**
+		 * zet zaken tbv de eventlogging op de SessionContext
+		 */
 		SessionContext.cleanSessionContext();
 		SessionContext.getCurrentId().set(UUID.randomUUID().toString());
 		SessionContext.getCurrentMethod().set(resourceMethod.getMethod().getName());

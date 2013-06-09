@@ -35,9 +35,11 @@ RockMongo Password: Fe7WQ2cN2wp9
 WERKWIJZE SSH:
 Inloggen met SSH @rodofumi-googlethursday.rhcloud.com/rockmongo
 
+WERKWIJZE PUTTY:
+[TODO]
+
 Logentries:
 Zie o.a. .openshift/action_hooks/postdeploy waarin een push naar logentries plaatsvindt
-
 
 Logging:
 Standaard logt JBOSS naar zijn eigen logtarget, zie standalone\configuration\standalone.xml
