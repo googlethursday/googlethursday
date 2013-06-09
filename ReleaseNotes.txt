@@ -1,3 +1,6 @@
+08-06-2013 10
+logging aangepast, log4j.xml aangepast, ProjectRestService generieker gemaakt
+
 07-05-2013 9
 logentries.com link toegevoegd tbv remote logging
 
