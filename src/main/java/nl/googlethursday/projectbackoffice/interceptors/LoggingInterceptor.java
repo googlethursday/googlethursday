@@ -23,20 +23,21 @@ import org.apache.log4j.Logger;
 @Interceptor
 public class LoggingInterceptor {
 
-
 	private Logger logger = Logger.getLogger("nl.googlethursday.eventlogger");
+	final String SPLITTER = ",";
 
 	@AroundInvoke
 	public Object logMethod(InvocationContext ic) throws Exception {
 
 		String id = SessionContext.getCurrentId().get();
-		
-		//String method = SessionContext.getCurrentMethod().get();
-		
-		String method = ic.getMethod().getName().toString();
-		
+
+		// String method = SessionContext.getCurrentMethod().get();
+
+		String calledMethod = ic.getMethod().getName();
+		String calledClass = ic.getClass().getName();
+
 		String sleutel = SessionContext.getSleutel().get();
-		
+
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
 
 		StopWatch stopWatch = new StopWatch();
@@ -49,7 +50,11 @@ public class LoggingInterceptor {
 			stopWatch.getTime();
 			Calendar cal = Calendar.getInstance();
 			Date date = cal.getTime();
-			logger.debug(dateFormat.format(date) + "," + method + "," + id + "," + sleutel + "," + stopWatch);
+			StringBuilder sb = new StringBuilder();
+			sb = sb.append(dateFormat.format(date)).append(SPLITTER).append(calledClass).append(SPLITTER)
+					.append(calledMethod).append(SPLITTER).append(id).append(SPLITTER).append(sleutel).append(SPLITTER)
+					.append(stopWatch);
+			logger.debug(sb.toString());
 		}
 	}
 }
