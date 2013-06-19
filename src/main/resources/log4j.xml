@@ -13,7 +13,7 @@
 
 	<!-- 2 errors naar aparte log -->
 	<appender name="errorAppender" class="org.apache.log4j.RollingFileAppender">
-		<param name="file" value="logs/applicationError.log" />
+		<param name="file" value="/var/lib/openshift/9425ccd5c0bd4cb3844a0d29d38edbc0/jbossas/logs/applicationError.log" />
 		<param name="threshold" value="ERROR" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="10" />
@@ -24,7 +24,7 @@
 
 	<!-- 3 alles naar aparte log -->
 	<appender name="applicationLogAppender" class="org.apache.log4j.RollingFileAppender">
-		<param name="file" value="d:/logs/applicationLog.log" />
+		<param name="file" value="/var/lib/openshift/9425ccd5c0bd4cb3844a0d29d38edbc0/jbossas/logs/applicationLog.log" />
 		<param name="threshold" value="DEBUG" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="10" />
@@ -65,7 +65,7 @@
 	<!-- 4 -->
 	<!-- alle eventlogging -->
 	<appender name="eventlogger" class="org.apache.log4j.RollingFileAppender">
-		<param name="file" value="logs/eventlog.log" />
+		<param name="file" value="/var/lib/openshift/9425ccd5c0bd4cb3844a0d29d38edbc0/jbossas/logs/eventlog.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="10" />
 		<layout class="org.apache.log4j.PatternLayout">
